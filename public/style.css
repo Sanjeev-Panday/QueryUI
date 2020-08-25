@@ -1,0 +1,94 @@
+html,
+body {
+  box-sizing: border-box;
+  margin: 1rem;
+  font-family: monospace;
+}
+#root {
+  height: 100vh;
+  display: grid;
+  grid: 300px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);
+  grid-template-areas:
+    "left query right"
+    "left result right";
+  grid-gap: 1rem;
+}
+#left-content {
+  grid-area: left;
+}
+#query-content {
+  grid-area: query;
+}
+#result-content {
+  grid-area: result;
+}
+#right-content {
+  grid-area: right;
+}
+#keyspaces {
+  height: 50%;
+  overflow-y: scroll;
+  margin-bottom: 0.5rem;
+}
+#connections {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 50%;
+  overflow-y: scroll;
+}
+#keyspaces,
+#connections,
+#left-content {
+  border: 2px solid #ede;
+  border-bottom: 2px solid #cce;
+  border-radius: 0.5em;
+  padding: 1em;
+  overflow-y: scroll;
+}
+h4 {
+  text-align: center;
+  background-color: bisque;
+  padding: 1rem;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+}
+.query-textarea {
+  margin-bottom: 0.5rem;
+  height: 90%;
+}
+textarea {
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #cce;
+  border-radius: 0.5em;
+  font-family: monospace;
+  font-size: large;
+}
+table {
+  margin-top: 0.5rem;
+}
+.query-control {
+  display: flex;
+  justify-content: flex-end;
+}
+#connections .add-connection {
+  display: block;
+  padding: 0.5rem;
+  position: fixed;
+  bottom: 0;
+  right: 2rem;
+  z-index: 10000;
+  margin-bottom: 10px;
+}
+.tableinfo {
+  display: flex;
+  overflow: scroll;
+}
+.card {
+  margin-bottom: 0.2rem;
+}
+.query-textarea textarea {
+  font-size: 2rem;
+}
