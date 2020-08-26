@@ -6,7 +6,6 @@ const Columns = ({ label, columns }) => {
       <thead className="thead-dark">
         <tr>
           <th scope="col">{label && label}</th>
-          <th scope="col">{label && "Data Type"}</th>
         </tr>
       </thead>
       <tbody>

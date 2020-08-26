@@ -12,12 +12,9 @@ const App = () => {
         <TableList />
       </aside>
       <main id="query-content">
-        <div className="query-textarea">
-          <Query />
-        </div>
-        <div className="query-control">
-          <button className="btn btn-success">Execute</button>
-        </div>
+        <Query />
+
+        <div className="query-control"></div>
       </main>
       <main id="result-conent">
         <TableInfo />

@@ -1,0 +1,27 @@
+html,
+body {
+  box-sizing: border-box;
+  margin: 1rem;
+  font-family: monospace;
+}
+#root {
+  height: 100vh;
+  display: grid;
+  grid: 400px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);
+  grid-template-areas:
+    "left query right"
+    "left result right";
+  grid-gap: 1rem;
+}
+#left-content {
+  grid-area: left;
+}
+#query-content {
+  grid-area: query;
+}
+#result-content {
+  grid-area: result;
+}
+#right-content {
+  grid-area: right;
+}

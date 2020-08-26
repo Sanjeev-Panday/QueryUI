@@ -3,6 +3,7 @@ import Keyspace from "./Keyspace";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as keyspaceActions from "../../../redux/actions/keyspaceActions";
+import * as tableActions from "../../../redux/actions/tableActions";
 import { fetchTableList } from "../../../api/apiCalls";
 const Keyspaces = (props) => {
   const [clickedItem, setClickedItem] = useState(-1);
@@ -11,7 +12,8 @@ const Keyspaces = (props) => {
     fetchTableList(name)
       .then((tables) => {
         console.log(tables);
-        props.actions.loadTables(tables.data);
+        props.keyspaceActions.loadTables(tables.data);
+        props.tableActions.clearTableMetaData();
         setClickedItem(index);
       })
       .catch((err) => {
@@ -47,7 +49,8 @@ function mapStateToProps(state, ownProps) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(keyspaceActions, dispatch),
+    keyspaceActions: bindActionCreators(keyspaceActions, dispatch),
+    tableActions: bindActionCreators(tableActions, dispatch),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Keyspaces);

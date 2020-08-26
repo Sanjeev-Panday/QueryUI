@@ -5,3 +5,9 @@ export function loadTableMetaData(tableinfo) {
     tableinfo,
   };
 }
+
+export function clearTableMetaData() {
+  return {
+    type: actionTypes.CLEAR_TABLE_META_DATA,
+  };
+}

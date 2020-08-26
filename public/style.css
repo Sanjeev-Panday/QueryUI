@@ -1,52 +1,5 @@
-html,
-body {
-  box-sizing: border-box;
-  margin: 1rem;
-  font-family: monospace;
-}
-#root {
-  height: 100vh;
-  display: grid;
-  grid: 400px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);
-  grid-template-areas:
-    "left query right"
-    "left result right";
-  grid-gap: 1rem;
-}
-#left-content {
-  grid-area: left;
-}
-#query-content {
-  grid-area: query;
-}
-#result-content {
-  grid-area: result;
-}
-#right-content {
-  grid-area: right;
-}
-#keyspaces {
-  height: 50%;
-  overflow-y: scroll;
-  margin-bottom: 0.5rem;
-}
-#connections {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 50%;
-  overflow-y: scroll;
-}
-#keyspaces,
-#connections,
-#left-content,
-#query-content {
-  border: 2px solid #ede;
-  border-bottom: 2px solid #cce;
-  border-radius: 0.5em;
-  padding: 1em;
-  overflow-y: scroll;
-}
+@import "grid.css";
+@import "layout.css";
 h4 {
   text-align: center;
   background-color: bisque;
@@ -54,18 +7,7 @@ h4 {
   text-transform: uppercase;
   border-radius: 0.5rem;
 }
-.query-textarea {
-  margin-bottom: 0.5rem;
-}
-#query {
-  padding: 2rem;
-  width: 100%;
-  height: 100%;
-  border: 2px solid #cce;
-  border-radius: 0.5em;
-  font-family: monospace;
-  font-size: large;
-}
+
 table {
   margin-top: 0.5rem;
 }
@@ -89,6 +31,21 @@ table {
 .card {
   margin-bottom: 0.2rem;
 }
-.query-textarea textarea {
-  font-size: 2rem;
+.info {
+  align-self: center;
+  width: 50%;
+}
+.action {
+  align-self: flex-end;
+  display: block;
+  padding: 0.5rem;
+  max-width: max-content;
+}
+.query-form {
+  height: 100%;
+  margin-top: 2rem;
+}
+.control-label:after {
+  content: "*";
+  color: red;
 }

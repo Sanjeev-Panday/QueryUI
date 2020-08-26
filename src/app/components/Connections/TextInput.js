@@ -7,9 +7,11 @@ const TextInput = (props) => {
     wrapperClass += " has-error";
   }
   return (
-    <div className="form-row">
+    <div className="form-group required">
       <div className={wrapperClass}>
-        <label htmlFor={props.id}>{props.label}</label>
+        <label htmlFor={props.id} className="control-label">
+          {props.label}
+        </label>
         <input
           type="text"
           className="form-control"

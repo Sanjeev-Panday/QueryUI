@@ -5,8 +5,7 @@ const TableRow = ({ name, type }) => {
   const dataType = dataTypes[type.code];
   return (
     <tr>
-      <td>{name}</td>
-      <td>{dataType}</td>
+      <td>{`${name} (${dataType})`}</td>
     </tr>
   );
 };
