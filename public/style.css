@@ -46,3 +46,13 @@ table {
   content: "*";
   color: red;
 }
+.list-group-item-action {
+  cursor: pointer;
+}
+.list-group-item-action:hover {
+  color: white !important;
+  background-color: blue !important;
+}
+td {
+  white-space: nowrap;
+}

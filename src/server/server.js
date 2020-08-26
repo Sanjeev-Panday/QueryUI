@@ -5,6 +5,7 @@ const {
   getTableInfo,
   getTables,
   shutdown,
+  executeQuery,
 } = require("./db-operations");
 const express = require("express");
 const path = require("path");
@@ -33,9 +34,21 @@ app.get("/connections", (req, res) => {
   res.status(200).send(response);
 });
 
+app.post("/execute", (req, res) => {
+  const where = req.body.where;
+  const query = req.body.query;
+  const params = app.locals.connection;
+  executeQuery(params, query, where)
+    .then((rows) => {
+      res.status(200).send(rows);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
 app.post("/connect", (req, res) => {
   const connection = req.body.connection;
-  console.log(connection);
   const params = app.locals.connection;
   getKeyspaces(connection.host, connection.port, connection.datacenter, params)
     .then((keyspaces) => {

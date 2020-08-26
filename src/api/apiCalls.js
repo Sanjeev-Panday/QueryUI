@@ -21,3 +21,10 @@ export const fetchTableMetaData = (keyspace, name) =>
 export const getAllConnections = () => axios.get(`${url}/connections`);
 
 export const disconnectFromHost = () => axios.post(url + "/shutdown");
+
+export const executeQueryOnHost = (query, where) => {
+  return axios.post(url + "/execute", {
+    query,
+    where,
+  });
+};

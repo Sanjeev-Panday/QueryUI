@@ -9,7 +9,6 @@ const getKeyspaces = async (host, port, dc, params) => {
         resolve(keyspaces);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
   });
@@ -53,6 +52,24 @@ const getTables = async (params, keyspace) => {
       });
   });
 };
+const executeQuery = async (params, query, where) => {
+  const client = await connection(
+    params.host,
+    params.port,
+    params.datacenter,
+    params
+  );
+  return new Promise((resolve, reject) => {
+    client
+      .execute(query, where)
+      .then((result) => {
+        resolve(result.rows);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
 const shutdown = async (params) => {
   const client = await connection(
     params.host,
@@ -67,4 +84,5 @@ module.exports = {
   getTableInfo,
   getTables,
   shutdown,
+  executeQuery,
 };

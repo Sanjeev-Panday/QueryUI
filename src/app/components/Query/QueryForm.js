@@ -18,6 +18,7 @@ const QueryForm = (props) => {
         id={props.id}
         value={props.value}
         name={props.name}
+        onChange={props.onChange}
       />
     </div>
   );

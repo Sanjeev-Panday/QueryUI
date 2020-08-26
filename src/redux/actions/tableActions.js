@@ -11,3 +11,16 @@ export function clearTableMetaData() {
     type: actionTypes.CLEAR_TABLE_META_DATA,
   };
 }
+
+export function fetchTableRows(rows) {
+  return {
+    type: actionTypes.FETCH_TABLE_ROWS,
+    rows,
+  };
+}
+
+export function clearTableRows(rows) {
+  return {
+    type: actionTypes.CLEAR_TABLE_ROWS,
+  };
+}

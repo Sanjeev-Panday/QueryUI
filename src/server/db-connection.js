@@ -22,10 +22,9 @@ async function connection(
       return client;
     else client.shutdown();
   }
-  console.log(prevConn);
   client = await new cassandra.Client(connectionParams);
   client.on("log", (level, loggerName, message, furtherInfo) => {
-    if (level === "info") console.log(`${level}-${loggerName}: ${message}`);
+    if (level === "error") console.log(`${level}-${loggerName}: ${message}`);
   });
   return client;
 }

@@ -11,8 +11,10 @@ const TableList = (props) => {
       .then((res) => {
         console.log(res.data);
         const tableinfo = res.data;
+        tableinfo.keyspace_name = keyspace;
         props.actions.loadTableMetaData(tableinfo);
         setClickedItem(name);
+        props.actions.clearTableRows();
       })
       .catch((err) => {
         console.log(err);

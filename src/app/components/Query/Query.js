@@ -1,7 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import QueryForm from "./QueryForm";
-const Query = ({ tableinfo }) => {
+import { executeQueryOnHost } from "../../../api/apiCalls";
+import { bindActionCreators } from "redux";
+import * as tableActions from "../../../redux/actions/tableActions";
+const Query = (props) => {
+  const tableinfo = props.tableinfo;
+  const [state, setState] = useState({});
+  const executeQuery = (event) => {
+    event.preventDefault();
+    const { keyspace_name, name, partitionKeys, clusteringKeys } = tableinfo;
+
+    let queryString = `select * from ${keyspace_name}.${name} where `;
+    const where = [];
+    partitionKeys.forEach((elem) => {
+      if (state[elem.name] && state[elem.name].trim() !== "") {
+        queryString += elem.name + " = ? and ";
+        where.push(state[elem.name]);
+      }
+    });
+    clusteringKeys &&
+      clusteringKeys.forEach((elem) => {
+        if (state[elem.name] && state[elem.name].trim() !== "") {
+          queryString += elem.name + " = ? and ";
+          where.push(state[elem.name]);
+        }
+      });
+    queryString =
+      queryString.substr(0, queryString.lastIndexOf("and")).trim() + ";";
+    executeQueryOnHost(queryString, where)
+      .then((res) => {
+        props.tableActions.fetchTableRows(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleChange = ({ target }) => {
+    setState({
+      ...state,
+      [target.name]: target.value,
+    });
+  };
   const isPartitionKeysPresent =
     tableinfo.partitionKeys && tableinfo.partitionKeys.length > 0;
 
@@ -20,6 +60,7 @@ const Query = ({ tableinfo }) => {
                 id={elem.name}
                 name={elem.name}
                 type={elem.type}
+                onChange={handleChange}
               />
             ))}
         </div>
@@ -34,12 +75,17 @@ const Query = ({ tableinfo }) => {
                     id={elem.name}
                     name={elem.name}
                     type={elem.type}
+                    onChange={handleChange}
                   />
                 ))}
             </div>
           </>
         )}
-        <button type="submit" className="btn btn-success">
+        <button
+          type="submit"
+          className="btn btn-success"
+          onClick={executeQuery}
+        >
           Execute
         </button>
       </form>
@@ -67,4 +113,9 @@ function mapStateToProps(state) {
     tableinfo: state.tableinfo,
   };
 }
-export default connect(mapStateToProps)(Query);
+function mapDispatchToProps(dispatch) {
+  return {
+    tableActions: bindActionCreators(tableActions, dispatch),
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Query);
