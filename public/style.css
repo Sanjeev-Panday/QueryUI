@@ -8,13 +8,17 @@ h4 {
   border-radius: 0.5rem;
 }
 
+.info-heading {
+  text-align: center;
+  background-color: bisque;
+  padding: 0.2rem;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+}
 table {
   margin-top: 0.5rem;
 }
-.query-control {
-  display: flex;
-  justify-content: flex-end;
-}
+
 #connections .add-connection {
   display: block;
   padding: 0.5rem;
@@ -26,7 +30,6 @@ table {
 }
 .tableinfo {
   display: flex;
-  overflow: scroll;
 }
 .card {
   margin-bottom: 0.2rem;
@@ -35,17 +38,11 @@ table {
   align-self: center;
   width: 50%;
 }
-.action {
-  align-self: flex-end;
-  display: block;
-  padding: 0.5rem;
-  max-width: max-content;
-}
 .query-form {
   height: 100%;
   margin-top: 2rem;
 }
-.control-label:after {
+.control-label.required:after {
   content: "*";
   color: red;
 }

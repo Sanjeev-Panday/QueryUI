@@ -23,8 +23,16 @@
 #query-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   height: 100%;
+}
+
+#result-content {
+  border: 2px solid #ede;
+  border-bottom: 2px solid #cce;
+  border-radius: 0.5em;
+  padding: 1em;
+  overflow: scroll;
+  position: relative;
 }
 #query {
   padding: 2rem;

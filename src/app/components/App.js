@@ -13,10 +13,9 @@ const App = () => {
       </aside>
       <main id="query-content">
         <Query />
-
-        <div className="query-control"></div>
       </main>
-      <main id="result-conent">
+
+      <main id="result-content">
         <TableInfo />
       </main>
       <aside id="right-content">

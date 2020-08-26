@@ -2,27 +2,47 @@ import React from "react";
 import { connect } from "react-redux";
 import QueryForm from "./QueryForm";
 const Query = ({ tableinfo }) => {
-  return tableinfo.partitionKeys ? (
+  const isPartitionKeysPresent =
+    tableinfo.partitionKeys && tableinfo.partitionKeys.length > 0;
+
+  const isClusteringKeysPresent =
+    tableinfo.clusteringKeys && tableinfo.clusteringKeys.length > 0;
+  return isPartitionKeysPresent ? (
     <>
-      <form className="row query-form">
-        <div className="col-md-6">
-          <h5>Partition Keys</h5>
+      <form>
+        <p className="info-heading">Partition Keys</p>
+
+        <div className="form-row">
           {tableinfo.partitionKeys &&
             tableinfo.partitionKeys.map((elem) => (
-              <QueryForm id={elem.name} name={elem.name} type={elem.type} />
+              <QueryForm
+                isRequired={true}
+                id={elem.name}
+                name={elem.name}
+                type={elem.type}
+              />
             ))}
         </div>
-        {tableinfo.clusteringKeys.length > 0 && (
-          <div className="col-md-6">
-            <h5>Clustering Keys</h5>
-
-            {tableinfo.clusteringKeys.map((elem) => (
-              <QueryForm id={elem.name} name={elem.name} type={elem.type} />
-            ))}
-          </div>
+        {isClusteringKeysPresent && (
+          <>
+            <p className="info-heading">Clustering Keys</p>
+            <div className="form-row">
+              {tableinfo.clusteringKeys.length > 0 &&
+                tableinfo.clusteringKeys.map((elem) => (
+                  <QueryForm
+                    isRequired={false}
+                    id={elem.name}
+                    name={elem.name}
+                    type={elem.type}
+                  />
+                ))}
+            </div>
+          </>
         )}
+        <button type="submit" className="btn btn-success">
+          Execute
+        </button>
       </form>
-      <button className="btn btn-success action">Execute</button>
     </>
   ) : (
     <div className="info">
