@@ -3,6 +3,7 @@ import ManageConnections from "./Connections/ManageConnections";
 import Keyspaces from "./Keyspaces/Keyspaces";
 import TableList from "./Tables/TableList";
 import TableInfo from "./TableInfo/TableInfo";
+import Query from "./Query/Query";
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
       </aside>
       <main id="query-content">
         <div className="query-textarea">
-          <textarea />
+          <Query />
         </div>
         <div className="query-control">
           <button className="btn btn-success">Execute</button>

@@ -5,13 +5,15 @@ const Columns = ({ label, columns }) => {
     <table className="table table-bordered">
       <thead className="thead-dark">
         <tr>
-          <th scope="col">{label}</th>
+          <th scope="col">{label && label}</th>
+          <th scope="col">{label && "Data Type"}</th>
         </tr>
       </thead>
       <tbody>
-        {columns.map((elem) => (
-          <TableRow key={elem.name} name={elem.name} type={elem.type} />
-        ))}
+        {columns &&
+          columns.map((elem) => (
+            <TableRow key={elem.name} name={elem.name} type={elem.type} />
+          ))}
       </tbody>
     </table>
   );

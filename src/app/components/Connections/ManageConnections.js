@@ -18,6 +18,7 @@ class ManageConnections extends React.Component {
     connectionName: "",
     host: "",
     port: "",
+    datacenter: "",
     keyspaces: [],
     isConncted: false,
   };
@@ -93,6 +94,7 @@ class ManageConnections extends React.Component {
               connectionName={elem.connectionName}
               host={elem.host}
               port={elem.port}
+              datacenter={elem.datacenter}
             />
           ))}
         <button

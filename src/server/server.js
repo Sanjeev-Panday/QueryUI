@@ -36,12 +36,11 @@ app.get("/connections", (req, res) => {
 app.post("/connect", (req, res) => {
   const connection = req.body.connection;
   console.log(connection);
-  const params = { host: app.locals.host, port: app.locals.port };
-  getKeyspaces(connection.host, connection.port, params)
+  const params = app.locals.connection;
+  getKeyspaces(connection.host, connection.port, connection.datacenter, params)
     .then((keyspaces) => {
       connections.put({ id: [connection.name], connection });
-      app.locals.host = connection.host;
-      app.locals.port = connection.port;
+      app.locals.connection = connection;
       res.status(200).send(keyspaces);
     })
     .catch((err) => {
@@ -50,7 +49,7 @@ app.post("/connect", (req, res) => {
 });
 
 app.get("/tableinfo/:keyspace/:table", (req, res) => {
-  const params = { host: app.locals.host, port: app.locals.port };
+  const params = app.locals.connection;
   getTableInfo(params, req.params.keyspace, req.params.table)
     .then((tableInfo) => {
       res.status(200).send(tableInfo);
@@ -61,7 +60,7 @@ app.get("/tableinfo/:keyspace/:table", (req, res) => {
 });
 
 app.get("/keyspace-info/:keyspace", (req, res) => {
-  const params = { host: app.locals.host, port: app.locals.port };
+  const params = app.locals.connection;
   getTables(params, req.params.keyspace)
     .then((tables) => {
       res.status(200).send(tables);
@@ -72,7 +71,7 @@ app.get("/keyspace-info/:keyspace", (req, res) => {
 });
 
 app.post("/shutdown", (req, res) => {
-  const params = { host: app.locals.host, port: app.locals.port };
+  const params = app.locals.connection;
   shutdown(params)
     .then((res) => {
       res.status(200).send();

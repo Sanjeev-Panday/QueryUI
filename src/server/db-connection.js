@@ -2,10 +2,19 @@ const cassandra = require("cassandra-driver");
 // This is to create a connection with cassandra
 
 let client = null;
-async function connection(host = "localhost", port = "9042", prevConn = {}) {
+async function connection(
+  host = "localhost",
+  port = "9042",
+  dc,
+  prevConn = {}
+) {
   const connectionParams = {
     contactPoints: [`${host}:${port}`],
-    localDataCenter: "datacenter1",
+    localDataCenter: dc,
+    keyspace: "system",
+    protocolOptions: {
+      port: port,
+    },
   };
 
   if (client) {

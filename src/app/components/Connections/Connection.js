@@ -11,6 +11,7 @@ const Connection = (props) => {
       <div className="card-body">
         <h5 className="card-title">{props.connectionName}</h5>
         <h6 className="card-subtitle mb-2 text-muted">{`${props.host} : ${props.port}`}</h6>
+        <h6 className="card-subtitle mb-2 text-muted">{`DataCenter : ${props.datacenter}`}</h6>
         <button
           className="btn btn-primary"
           onClick={() => handler(props.index)}

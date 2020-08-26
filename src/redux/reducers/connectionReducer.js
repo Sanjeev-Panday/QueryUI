@@ -11,7 +11,7 @@ export default function connectionReducer(state = [], action) {
       const conn = newState.map((elem) =>
         elem.connectionName === action.connection.connectionName
           ? { ...elem, isConnected: true }
-          : { ...elem }
+          : { ...elem, isConnected: false }
       );
       return conn;
     case actionTypes.CLOSE_CONNECTION:

@@ -7,8 +7,6 @@ const TableInfo = ({ tableinfo }) => {
       {tableinfo && tableinfo.columns && (
         <>
           <Columns label="Columns" columns={tableinfo.columns} />
-          <Columns label="Partition Keys" columns={tableinfo.partitionKeys} />
-          <Columns label="Clustering Keys" columns={tableinfo.clusteringKeys} />
         </>
       )}
     </div>

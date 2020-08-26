@@ -7,6 +7,7 @@ export const connectToHost = (connection) => {
       name: connection.connectionName,
       host: connection.host,
       port: connection.port,
+      datacenter: connection.datacenter,
     },
   });
 };

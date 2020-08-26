@@ -50,6 +50,14 @@ const ConnectionForm = (props) => {
                 value={props.connection.port}
                 onChange={props.onChange}
               />
+
+              <TextInput
+                label="DataCenter"
+                id="datacenter"
+                name="datacenter"
+                value={props.connection.datacenter}
+                onChange={props.onChange}
+              />
             </form>
           </div>
           <div className="modal-footer">

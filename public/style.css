@@ -7,7 +7,7 @@ body {
 #root {
   height: 100vh;
   display: grid;
-  grid: 300px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);
+  grid: 400px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);
   grid-template-areas:
     "left query right"
     "left result right";
@@ -39,7 +39,8 @@ body {
 }
 #keyspaces,
 #connections,
-#left-content {
+#left-content,
+#query-content {
   border: 2px solid #ede;
   border-bottom: 2px solid #cce;
   border-radius: 0.5em;
@@ -55,9 +56,8 @@ h4 {
 }
 .query-textarea {
   margin-bottom: 0.5rem;
-  height: 90%;
 }
-textarea {
+#query {
   padding: 2rem;
   width: 100%;
   height: 100%;
