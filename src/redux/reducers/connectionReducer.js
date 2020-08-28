@@ -4,7 +4,6 @@ export default function connectionReducer(state = [], action) {
     case actionTypes.ADD_CONNECTION:
       return [...state, action.connection];
     case actionTypes.LOAD_CONNECTIONS:
-      console.log(action);
       return action.connections;
     case actionTypes.OPEN_CONNECTION:
       const newState = [...state];

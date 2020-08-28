@@ -1,4 +1,5 @@
 const connection = require("./db-connection");
+
 const getKeyspaces = async (host, port, dc, params) => {
   const client = await connection(host, port, dc);
   return new Promise((resolve, reject) => {
@@ -13,6 +14,7 @@ const getKeyspaces = async (host, port, dc, params) => {
       });
   });
 };
+
 const getTableInfo = async (params, keyspace, table) => {
   const client = await connection(
     params.host,
@@ -77,7 +79,7 @@ const shutdown = async (params) => {
     params.datacenter,
     params
   );
-  return await client.shutdown();
+  return client.shutdown();
 };
 module.exports = {
   getKeyspaces,

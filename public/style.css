@@ -26,8 +26,11 @@ table {
   bottom: 0;
   right: 2rem;
   z-index: 10000;
+  font-size: 2rem;
   margin-bottom: 10px;
+  cursor: pointer;
 }
+
 .tableinfo {
   display: flex;
 }
@@ -55,4 +58,12 @@ table {
 }
 td {
   white-space: nowrap;
+}
+.connect-db {
+  font-size: 2rem;
+  cursor: pointer;
+}
+.connect-db:hover,
+.add-connection:hover {
+  color: rgb(172, 98, 8);
 }

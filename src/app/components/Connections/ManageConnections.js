@@ -8,11 +8,9 @@ import * as connectionActions from "../../../redux/actions/connectionActions";
 import * as keyspaceActions from "../../../redux/actions/keyspaceActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
-import {
-  connectToHost,
-  getAllConnections,
-  disconnectFromHost,
-} from "../../../api/apiCalls";
+import { connectToHost, disconnectFromHost } from "../../../api/apiCalls";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 class ManageConnections extends React.Component {
   state = {
     connectionName: "",
@@ -47,13 +45,21 @@ class ManageConnections extends React.Component {
       });
   };
   componentDidMount() {
-    getAllConnections()
+    const keys = Object.keys(localStorage);
+    const response = [];
+    keys.forEach((elem) => {
+      const obj = JSON.parse(localStorage.getItem(elem));
+      obj.connectionName = elem;
+      response.push(obj);
+    });
+    this.props.actions.loadConnections(response);
+    /*getAllConnections()
       .then((res) => {
         this.props.actions.loadConnections(res.data);
       })
       .catch((err) => {
         console.log(err);
-      });
+      });*/
   }
 
   handleChange = ({ target }) => {
@@ -75,6 +81,10 @@ class ManageConnections extends React.Component {
   // This also dispatches actions to redux store
   handleAddConnect = (event) => {
     event.preventDefault();
+    localStorage.setItem(
+      this.state.connectionName,
+      JSON.stringify({ ...this.state })
+    );
     this.props.actions.addConnection({
       ...this.state,
     });
@@ -97,14 +107,14 @@ class ManageConnections extends React.Component {
               datacenter={elem.datacenter}
             />
           ))}
-        <button
+        <i
           onClick={this.handleAddConneciton}
-          className="btn btn-success add-connection"
+          className="add-connection"
           data-toggle="modal"
           data-target="#exampleModalCenter"
         >
-          Add
-        </button>
+          <FontAwesomeIcon icon={faPlusCircle} />
+        </i>
         <ConnectionForm
           connection={this.state}
           onChange={this.handleChange}

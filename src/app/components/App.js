@@ -4,7 +4,6 @@ import Keyspaces from "./Keyspaces/Keyspaces";
 import TableList from "./Tables/TableList";
 import TableInfo from "./TableInfo/TableInfo";
 import Query from "./Query/Query";
-
 const App = () => {
   return (
     <>

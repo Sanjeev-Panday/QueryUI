@@ -1,5 +1,4 @@
 const cors = require("cors");
-const JSONFileStorage = require("node-json-file-storage");
 const {
   getKeyspaces,
   getTableInfo,
@@ -11,28 +10,12 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 
-const file_uri = __dirname + "/connection-config.json";
-const connections = new JSONFileStorage(file_uri);
-
 const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// API calls
-app.get("/connections", (req, res) => {
-  const listOfConnections = connections.all();
-  const keys = Object.keys(listOfConnections);
-  const response = [];
-  keys.forEach((elem) => {
-    const obj = connections.get(elem).connection;
-    obj.connectionName = elem;
-    response.push(obj);
-  });
-  res.status(200).send(response);
-});
 
 app.post("/execute", (req, res) => {
   const where = req.body.where;
@@ -52,7 +35,6 @@ app.post("/connect", (req, res) => {
   const params = app.locals.connection;
   getKeyspaces(connection.host, connection.port, connection.datacenter, params)
     .then((keyspaces) => {
-      connections.put({ id: [connection.name], connection });
       app.locals.connection = connection;
       res.status(200).send(keyspaces);
     })

@@ -20,7 +20,7 @@ async function connection(
   if (client) {
     if (prevConn && prevConn.host === host && prevConn.port === port)
       return client;
-    else client.shutdown();
+    else await client.shutdown();
   }
   client = await new cassandra.Client(connectionParams);
   client.on("log", (level, loggerName, message, furtherInfo) => {
