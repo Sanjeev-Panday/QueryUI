@@ -14,10 +14,13 @@ const TableInfo = ({ rows, tableinfo }) => {
           <>
             <Columns label="Columns" columns={tableinfo.columns} />
             <Columns label="Partition Keys" columns={tableinfo.partitionKeys} />
-            <Columns
-              label="Clustering Keys"
-              columns={tableinfo.clusteringKeys}
-            />
+            {tableinfo.clusteringKeys &&
+              tableinfo.clusteringKeys.length > 0 && (
+                <Columns
+                  label="Clustering Keys"
+                  columns={tableinfo.clusteringKeys}
+                />
+              )}
           </>
         )}
       </div>

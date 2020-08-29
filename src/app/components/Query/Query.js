@@ -4,6 +4,7 @@ import QueryForm from "./QueryForm";
 import { executeQueryOnHost } from "../../../api/apiCalls";
 import { bindActionCreators } from "redux";
 import * as tableActions from "../../../redux/actions/tableActions";
+import { ToastContainer, toast } from "react-toastify";
 const Query = (props) => {
   const tableinfo = props.tableinfo;
   const [state, setState] = useState({});
@@ -30,6 +31,11 @@ const Query = (props) => {
       queryString.substr(0, queryString.lastIndexOf("and")).trim() + ";";
     executeQueryOnHost(queryString, where)
       .then((res) => {
+        if (!res.data || res.data.length === 0) {
+          toast.warn("No rows fetched !!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
         props.tableActions.fetchTableRows(res.data);
       })
       .catch((err) => {
@@ -50,36 +56,18 @@ const Query = (props) => {
   return isPartitionKeysPresent ? (
     <>
       <form>
-        <p className="info-heading">Partition Keys</p>
-
-        <div className="form-row">
-          {tableinfo.partitionKeys &&
-            tableinfo.partitionKeys.map((elem) => (
-              <QueryForm
-                isRequired={true}
-                id={elem.name}
-                name={elem.name}
-                type={elem.type}
-                onChange={handleChange}
-              />
-            ))}
-        </div>
+        <QueryForm
+          columns={tableinfo.partitionKeys}
+          handleChange={handleChange}
+          heading="Partition Keys"
+          isRequired={true}
+        />
         {isClusteringKeysPresent && (
-          <>
-            <p className="info-heading">Clustering Keys</p>
-            <div className="form-row">
-              {tableinfo.clusteringKeys.length > 0 &&
-                tableinfo.clusteringKeys.map((elem) => (
-                  <QueryForm
-                    isRequired={false}
-                    id={elem.name}
-                    name={elem.name}
-                    type={elem.type}
-                    onChange={handleChange}
-                  />
-                ))}
-            </div>
-          </>
+          <QueryForm
+            columns={tableinfo.clusteringKeys}
+            handleChange={handleChange}
+            heading="Clustering Keys"
+          />
         )}
         <button
           type="submit"
@@ -89,6 +77,7 @@ const Query = (props) => {
           Execute
         </button>
       </form>
+      <ToastContainer />
     </>
   ) : (
     <div className="info">

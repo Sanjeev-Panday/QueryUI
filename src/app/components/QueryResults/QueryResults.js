@@ -24,10 +24,12 @@ const QueryResults = ({ rows }) => {
   };
   const isTableRowsPresent = rows && rows.length > 0;
   return isTableRowsPresent ? (
-    <table className="table table-bordered">
-      <thead className="thead-dark">{rows && tableHeader(rows[0])}</thead>
-      <tbody>{rows && rows.map((elem) => tableRow(elem))}</tbody>
-    </table>
+    <div class="query-result">
+      <table className="table table-bordered">
+        <thead className="thead-dark">{rows && tableHeader(rows[0])}</thead>
+        <tbody>{rows && rows.map((elem) => tableRow(elem))}</tbody>
+      </table>
+    </div>
   ) : (
     <></>
   );

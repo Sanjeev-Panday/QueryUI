@@ -4,6 +4,8 @@ import keyspaces from "./keyspaceReducer";
 import tables from "./tableReducer";
 import tableinfo from "./tableMetaDataReducer";
 import tablerows from "./tableRowsReducer";
+import error from "./errorReducer";
+import loader from "./loadingReducer";
 
 const rootReducer = combineReducers({
   connections,
@@ -11,6 +13,8 @@ const rootReducer = combineReducers({
   tables,
   tableinfo,
   tablerows,
+  error,
+  loader,
 });
 
 export default rootReducer;

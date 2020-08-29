@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import * as keyspaceActions from "../../../redux/actions/keyspaceActions";
 import * as tableActions from "../../../redux/actions/tableActions";
 import { fetchTableList } from "../../../api/apiCalls";
+import Loader from "../common/Loader";
 const Keyspaces = (props) => {
   const [clickedItem, setClickedItem] = useState(-1);
   const handleClick = (index) => {
@@ -23,6 +24,7 @@ const Keyspaces = (props) => {
   return (
     <div id="keyspaces">
       <h4>Keyspaces</h4>
+      <Loader />
       {props.keyspaces ? (
         <div className="list-group">
           {props.keyspaces.map((elem, index) => (
@@ -43,6 +45,7 @@ const Keyspaces = (props) => {
 };
 
 function mapStateToProps(state, ownProps) {
+  console.log(state);
   return {
     keyspaces: state.keyspaces,
   };

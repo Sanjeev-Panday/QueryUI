@@ -61,16 +61,7 @@ const executeQuery = async (params, query, where) => {
     params.datacenter,
     params
   );
-  return new Promise((resolve, reject) => {
-    client
-      .execute(query, where)
-      .then((result) => {
-        resolve(result.rows);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+  return client.execute(query, where);
 };
 const shutdown = async (params) => {
   const client = await connection(
@@ -79,7 +70,7 @@ const shutdown = async (params) => {
     params.datacenter,
     params
   );
-  return client.shutdown();
+  return await client.shutdown();
 };
 module.exports = {
   getKeyspaces,

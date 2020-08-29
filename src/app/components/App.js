@@ -4,9 +4,12 @@ import Keyspaces from "./Keyspaces/Keyspaces";
 import TableList from "./Tables/TableList";
 import TableInfo from "./TableInfo/TableInfo";
 import Query from "./Query/Query";
+import ErrorMessage from "../components/common/ErrorMessage";
+import { ToastContainer } from "react-toastify";
 const App = () => {
   return (
     <>
+      <ErrorMessage />
       <aside id="left-content">
         <TableList />
       </aside>
@@ -21,6 +24,7 @@ const App = () => {
         <Keyspaces />
         <ManageConnections />
       </aside>
+      <ToastContainer />
     </>
   );
 };

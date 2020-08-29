@@ -20,7 +20,6 @@ export default function connectionReducer(state = [], action) {
           : { ...elem }
       );
       return updated;
-
     default:
       return state;
   }

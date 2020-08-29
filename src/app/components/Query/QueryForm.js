@@ -1,26 +1,31 @@
 import React from "react";
+import TextInput from "../common/TextInput";
 import { dataTypes } from "../../../commons/dataTypes";
-const QueryForm = (props) => {
-  const dataType = dataTypes[props.type.code];
+import PropTypes from "prop-types";
+const QueryForm = ({ columns, heading, handleChange, isRequired }) => {
   return (
-    <div className="form-group col-md-6">
-      <label
-        htmlFor={props.id}
-        className={
-          props.isRequired ? "control-label required" : "control-label"
-        }
-      >
-        <strong>{`${props.name} (${dataType})`}</strong>
-      </label>
-      <input
-        type="text"
-        className={props.isRequired ? "form-control" : "form-control"}
-        id={props.id}
-        value={props.value}
-        name={props.name}
-        onChange={props.onChange}
-      />
-    </div>
+    <>
+      <p className="info-heading">{heading}</p>
+
+      <div className="form-row">
+        {columns.map((elem) => (
+          <TextInput
+            label={`${elem.name} (${dataTypes[elem.type.code]})`}
+            isRequired={isRequired}
+            id={elem.name}
+            name={elem.name}
+            type={elem.type}
+            onChange={handleChange}
+          />
+        ))}
+      </div>
+    </>
   );
+};
+QueryForm.propTypes = {
+  columns: PropTypes.array.isRequired,
+  heading: PropTypes.string.isRequired,
+  isRequired: PropTypes.bool,
+  handleChange: PropTypes.func.isRequired,
 };
 export default QueryForm;

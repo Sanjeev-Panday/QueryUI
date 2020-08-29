@@ -15,10 +15,12 @@
     "node-json-file-storage": "^1.1.0",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.4.3",
+    "react-toastify": "^6.0.8",
     "redux": "^4.0.5",
     "redux-immutable-state-invariant": "^2.1.0"
   },
@@ -28,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-electron": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "start-electron": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
     "build-electron": "mkdir build/src && cp -r electron/. build/electron",
     "package": "electron-builder build --mac --win -c.extraMetadata.main=build/electron/main.js --publish never"
   },

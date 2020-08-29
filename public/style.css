@@ -1,19 +1,15 @@
 @import "grid.css";
 @import "layout.css";
 h4 {
-  text-align: center;
-  background-color: bisque;
   padding: 1rem;
   text-transform: uppercase;
   border-radius: 0.5rem;
 }
 
 .info-heading {
-  text-align: center;
-  background-color: bisque;
   padding: 0.2rem;
   text-transform: uppercase;
-  border-radius: 0.5rem;
+  border-bottom: 1px dotted black;
 }
 table {
   margin-top: 0.5rem;
@@ -26,13 +22,14 @@ table {
   bottom: 0;
   right: 2rem;
   z-index: 10000;
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 10px;
   cursor: pointer;
 }
 
 .tableinfo {
   display: flex;
+  width: 100%;
 }
 .card {
   margin-bottom: 0.2rem;
@@ -53,17 +50,54 @@ table {
   cursor: pointer;
 }
 .list-group-item-action:hover {
-  color: white !important;
-  background-color: blue !important;
+  color: brown !important;
+  background-color: beige !important;
+}
+.list-group-item-action .active {
+  color: brown !important;
+  background-color: beige !important;
 }
 td {
   white-space: nowrap;
 }
-.connect-db {
-  font-size: 2rem;
+.card-footer {
+  display: flex !important;
+  width: 100%;
+  justify-content: space-between;
+}
+.connect-db,
+.delete-connection {
+  display: block;
+  font-size: 1.5rem;
   cursor: pointer;
 }
+
 .connect-db:hover,
-.add-connection:hover {
+.add-connection .link-active {
   color: rgb(172, 98, 8);
+}
+.connect-db:hover,
+.add-connection:hover,
+.delete-connection:hover {
+  color: rgb(172, 98, 8);
+}
+
+.card-header {
+  display: flex;
+  font-weight: bold;
+  text-transform: uppercase;
+  justify-content: space-between;
+}
+.table-meta-data {
+  width: 100%;
+}
+.loading-container {
+  display: flex;
+  justify-content: center;
+  height: 50%;
+  overflow: hidden;
+}
+.spinner {
+  align-self: center;
+  overflow: hidden;
 }
