@@ -1,5 +1,5 @@
 const connection = require("./db-connection");
-
+const Uuid = require("cassandra-driver").types.Uuid;
 const getKeyspaces = async (host, port, dc, params) => {
   const client = await connection(host, port, dc);
   return new Promise((resolve, reject) => {
@@ -61,7 +61,36 @@ const executeQuery = async (params, query, where) => {
     params.datacenter,
     params
   );
-  return client.execute(query, where);
+  return new Promise((resolve, reject) => {
+    let rows = [];
+    let keys = null;
+    client.eachRow(
+      query,
+      where,
+      (n, row) => {
+        if (!keys) {
+          keys = Object.keys(row);
+        }
+        keys.forEach((key) => {
+          if (row[key] instanceof Uuid) row[key] = row[key].toString();
+        });
+        rows.push(row);
+      },
+      (err) => {
+        if (err) reject(err);
+        else resolve(rows);
+      }
+    );
+    /* client
+      .execute(query, where, { prepare: true })
+      .then((result) => {
+        console.log("inside execute query ", result);
+        resolve(result);
+      })
+      .catch((err) => {
+        reject(err);
+      });*/
+  });
 };
 const shutdown = async (params) => {
   const client = await connection(
@@ -78,4 +107,5 @@ module.exports = {
   getTables,
   shutdown,
   executeQuery,
+  Uuid,
 };

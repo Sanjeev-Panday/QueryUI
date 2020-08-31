@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
+
 const INITIAL_STATE = {
   tableinfo: {},
   tablerows: [],
@@ -11,6 +12,7 @@ export default function tableReducer(state = INITIAL_STATE, action) {
     case actionTypes.RESET_TABLE_DATA:
       return INITIAL_STATE;
     case actionTypes.FETCH_TABLE_ROWS:
+      console.log({ ...state, tablerows: action.rows });
       return { ...state, tablerows: action.rows };
     case actionTypes.CLEAR_TABLE_ROWS:
       return { ...state, tablerows: [] };

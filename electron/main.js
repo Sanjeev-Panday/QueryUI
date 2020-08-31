@@ -15,9 +15,10 @@ app.on("ready", () => {
   mainWindow = createWindow();
 });
 const createWindow = (exports.createWindow = () => {
-  const startUrl = isDev
+  const startUrl = "http://localhost:3000";
+  /* const startUrl = isDev
     ? "http://localhost:3000"
-    : `file://${path.join(__dirname, "../build/index.html")}`;
+    : `file://${path.join(__dirname, "../build/index.html")}`;*/
   let newWindow = new BrowserWindow({
     width: 1600,
     height: 900,
@@ -34,7 +35,7 @@ const createWindow = (exports.createWindow = () => {
     newWindow.show();
   });
   newWindow.on("closed", () => {
-    newWindow.removeAllListeners();
+    // newWindow.removeAllListeners();
     windows.delete(newWindow);
     shutdown(connection);
     mainWindow = null;
@@ -101,9 +102,8 @@ ipcMain.on("fetch:tables", (event, keyspace) => {
 
 ipcMain.on("execute:query", async (event, query, where) => {
   await executeQuery(connection, query, where)
-    .then((res) => {
-      console.log(res);
-      mainWindow.webContents.send("query:executed", res);
+    .then((rows) => {
+      mainWindow.webContents.send("query:executed", rows);
     })
     .catch((err) => {
       console.log(err);

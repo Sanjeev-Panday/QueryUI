@@ -17,7 +17,7 @@ const QueryResults = ({ rows }) => {
     return (
       <tr>
         {keys.map((key) => (
-          <td>{elem[key]}</td>
+          <td>{elem[key] && elem[key].toString()}</td>
         ))}
       </tr>
     );
@@ -37,7 +37,7 @@ const QueryResults = ({ rows }) => {
 
 function mapStateToProps(state) {
   return {
-    rows: state.tablerows,
+    rows: state.table.tablerows,
   };
 }
 export default connect(mapStateToProps)(QueryResults);

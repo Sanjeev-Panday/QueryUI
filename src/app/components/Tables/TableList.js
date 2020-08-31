@@ -10,9 +10,19 @@ const TableList = (props) => {
     setClickedItem(name);
     props.actions.clearTableRows();
   };
+  const filterList = (event) => {
+    console.log(event.target.value);
+  };
   return (
     <aside id="left-content">
       <h4>Tables</h4>
+      <input
+        class="form-control"
+        id="myInput"
+        type="text"
+        placeholder="Search.."
+        onKeyUp={filterList}
+      ></input>
       <div className="list-group">
         {props.tables &&
           props.tables.map((elem) => (

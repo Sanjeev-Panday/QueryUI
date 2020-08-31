@@ -26,9 +26,11 @@ export function executeQuery(query, where) {
   return function (dispatch) {
     ipcRenderer.send("execute:query", query, where);
     ipcRenderer.once("query:executed", (event, rows) => {
-      toast.warn("No rows fetched", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      (!rows || rows.length === 0) &&
+        toast.warn("No rows fetched!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
       dispatch({
         type: actionTypes.FETCH_TABLE_ROWS,
         rows,

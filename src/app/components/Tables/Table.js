@@ -6,9 +6,9 @@ const Table = ({ isClicked, name, keyspace, onFetchTableMetaData }) => {
   let style = "list-group-item list-group-item-action";
   if (isClicked) style += " active";
   return (
-    <div className={style} onClick={() => handler(keyspace, name)}>
+    <li className={style} onClick={() => handler(keyspace, name)}>
       {name}
-    </div>
+    </li>
   );
 };
 export default Table;
