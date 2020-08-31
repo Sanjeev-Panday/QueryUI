@@ -70,7 +70,7 @@ const shutdown = async (params) => {
     params.datacenter,
     params
   );
-  return await client.shutdown();
+  return client.shutdown();
 };
 module.exports = {
   getKeyspaces,

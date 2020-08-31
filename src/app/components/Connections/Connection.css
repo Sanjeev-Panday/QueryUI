@@ -1,0 +1,28 @@
+.card-footer {
+  display: flex !important;
+  width: 100%;
+  justify-content: space-between;
+}
+.connect-db,
+.delete-connection {
+  display: block;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.connect-db:hover,
+.add-connection .link-active {
+  color: rgb(172, 98, 8);
+}
+.connect-db:hover,
+.add-connection:hover,
+.delete-connection:hover {
+  color: rgb(172, 98, 8);
+}
+
+.card-header {
+  display: flex;
+  font-weight: bold;
+  text-transform: uppercase;
+  justify-content: space-between;
+}

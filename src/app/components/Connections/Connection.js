@@ -5,7 +5,7 @@ import {
   faWifi,
   faMinusCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import Loader from "../common/Loader";
+
 const Connection = (props) => {
   const handler = (index) => {
     props.isConnected

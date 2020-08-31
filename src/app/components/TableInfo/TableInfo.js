@@ -29,8 +29,8 @@ const TableInfo = ({ rows, tableinfo }) => {
 };
 function mapStateToProps(state) {
   return {
-    tableinfo: state.tableinfo,
-    rows: state.tablerows,
+    tableinfo: state.table.tableinfo,
+    rows: state.table.tablerows,
   };
 }
 export default connect(mapStateToProps)(TableInfo);

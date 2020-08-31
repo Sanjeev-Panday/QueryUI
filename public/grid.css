@@ -8,7 +8,7 @@ body {
 #root {
   height: 95vh;
   display: grid;
-  grid: 400px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);
+  grid: 300px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);
   grid-template-areas:
     "left query right"
     "left result right";

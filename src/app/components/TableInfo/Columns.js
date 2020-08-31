@@ -5,7 +5,9 @@ const Columns = ({ label, columns }) => {
     <div className="table-meta-data">
       <table className="table table-bordered">
         <thead className="thead-dark">
-          <th scope="col">{label && label}</th>
+          <tr>
+            <th scope="col">{label && label}</th>
+          </tr>
         </thead>
         <tbody>
           {columns &&

@@ -2,11 +2,11 @@ import * as actionTypes from "../actions/actionTypes";
 export default function errorReducer(state = [], action) {
   switch (action.type) {
     case actionTypes.SHOW_ERROR:
-      console.log("inside show error reducer");
+      console.log("inside show error reducer", action.error);
       const error = {
         show: true,
-        heading: action.error.heading,
-        msg: action.error.msg,
+        heading: action.error.name,
+        msg: action.error.message,
       };
       return error;
     case actionTypes.HIDE_ERROR:

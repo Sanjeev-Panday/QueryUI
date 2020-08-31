@@ -10,13 +10,10 @@ const App = () => {
   return (
     <>
       <ErrorMessage />
-      <aside id="left-content">
-        <TableList />
-      </aside>
+      <TableList />
       <main id="query-content">
         <Query />
       </main>
-
       <main id="result-content">
         <TableInfo />
       </main>

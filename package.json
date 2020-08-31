@@ -22,7 +22,8 @@
     "react-scripts": "3.4.3",
     "react-toastify": "^6.0.8",
     "redux": "^4.0.5",
-    "redux-immutable-state-invariant": "^2.1.0"
+    "redux-immutable-state-invariant": "^2.1.0",
+    "redux-thunk": "^2.3.0"
   },
   "main": "electron/main.js",
   "scripts": {
@@ -30,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-electron": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "build-electron": "mkdir build/src && cp -r electron/. build/electron",
     "package": "electron-builder build --mac --win -c.extraMetadata.main=build/electron/main.js --publish never"
   },
@@ -50,8 +51,12 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
     "electron": "^10.1.0",
-    "electron-builder": "^22.8.0"
+    "electron-builder": "^22.8.0",
+    "electron-is-dev": "^1.2.0",
+    "node-sass": "^4.14.1",
+    "wait-on": "^5.2.0"
   },
   "homepage": "./",
   "build": {

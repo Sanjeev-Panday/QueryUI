@@ -10,6 +10,7 @@ const QueryForm = ({ columns, heading, handleChange, isRequired }) => {
       <div className="form-row">
         {columns.map((elem) => (
           <TextInput
+            key={elem.name}
             label={`${elem.name} (${dataTypes[elem.type.code]})`}
             isRequired={isRequired}
             id={elem.name}

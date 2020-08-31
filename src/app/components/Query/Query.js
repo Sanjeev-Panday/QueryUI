@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import QueryForm from "./QueryForm";
-import { executeQueryOnHost } from "../../../api/apiCalls";
 import { bindActionCreators } from "redux";
 import * as tableActions from "../../../redux/actions/tableActions";
-import { ToastContainer, toast } from "react-toastify";
 const Query = (props) => {
   const tableinfo = props.tableinfo;
-  const [state, setState] = useState({});
+  const { keyspaceName, name, partitionKeys, clusteringKeys } = tableinfo;
+  const [state, setState] = useState({ ...props.queryForm });
   const executeQuery = (event) => {
     event.preventDefault();
-    const { keyspace_name, name, partitionKeys, clusteringKeys } = tableinfo;
 
-    let queryString = `select * from ${keyspace_name}.${name} where `;
+    let queryString = `select * from ${keyspaceName}.${name} where `;
     const where = [];
     partitionKeys.forEach((elem) => {
       if (state[elem.name] && state[elem.name].trim() !== "") {
@@ -29,18 +27,8 @@ const Query = (props) => {
       });
     queryString =
       queryString.substr(0, queryString.lastIndexOf("and")).trim() + ";";
-    executeQueryOnHost(queryString, where)
-      .then((res) => {
-        if (!res.data || res.data.length === 0) {
-          toast.warn("No rows fetched !!", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-        }
-        props.tableActions.fetchTableRows(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    props.tableActions.executeQuery(queryString, where);
   };
   const handleChange = ({ target }) => {
     setState({
@@ -77,7 +65,6 @@ const Query = (props) => {
           Execute
         </button>
       </form>
-      <ToastContainer />
     </>
   ) : (
     <div className="info">
@@ -99,7 +86,8 @@ const Query = (props) => {
 };
 function mapStateToProps(state) {
   return {
-    tableinfo: state.tableinfo,
+    tableinfo: state.table.tableinfo,
+    queryForm: state.table.queryForm,
   };
 }
 function mapDispatchToProps(dispatch) {

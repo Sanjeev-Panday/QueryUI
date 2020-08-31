@@ -2,14 +2,14 @@ import React from "react";
 import Connection from "./Connection";
 import ConnectionForm from "./ConnectionForm";
 import { connect } from "react-redux";
-import * as connectionActions from "../../../redux/actions/connectionActions";
-import * as keyspaceActions from "../../../redux/actions/keyspaceActions";
+import * as dbActions from "../../../redux/actions/dbActions";
 import * as errorActions from "../../../redux/actions/errorActions";
+import * as tableActions from "../../../redux/actions/tableActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
-import { connectToHost, disconnectFromHost } from "../../../api/apiCalls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import "./Connection.css";
 class ManageConnections extends React.Component {
   state = {
     show: false,
@@ -19,51 +19,26 @@ class ManageConnections extends React.Component {
       port: "",
       datacenter: "",
       keyspaces: [],
-      isConncted: false,
+      isConnected: false,
     },
   };
+
   handleDelete = (name) => {
     localStorage.removeItem(name);
     this.refreshConnections();
   };
+
   handleDisconnect = (index) => {
     const con = this.props.connections[index];
-    disconnectFromHost()
-      .then((res) => {
-        this.props.actions.closeConnection({ ...con });
-        this.props.actions.loadKeyspaces([]);
-        this.props.keyspaces.loadTables([]);
-      })
-      .catch((err) => {});
+    this.props.actions.disconnectFromDB(con);
+    this.props.tableActions.resetTableData();
   };
-  handleConnect = async (index) => {
+
+  handleConnect = (index) => {
     const con = this.props.connections[index];
-    this.props.actions.showSpinner();
-    try {
-      const res = await connectToHost(con);
-      this.props.actions.openConnection({ ...con });
-      const keyspaces = res.data;
-      this.props.actions.loadKeyspaces(keyspaces);
-    } catch (err) {
-      let msg = err.response ? err.response.data.innerErrors : {};
-      const keys = msg ? Object.keys(msg) : null;
-      msg =
-        keys && msg[keys[0]]
-          ? msg[keys[0]]
-          : {
-              name: "Error",
-              message: "Please check the connection parameters and try again",
-            };
-      this.props.errors.showErrorMessage({
-        heading: msg.name,
-        msg: msg.message,
-      });
-      this.props.actions.loadKeyspaces([]);
-      this.props.keyspaces.loadTables([]);
-    } finally {
-      this.props.actions.hideSpinner();
-    }
+    this.props.actions.connectToDB(con);
   };
+
   componentDidMount() {
     this.refreshConnections();
   }
@@ -142,20 +117,21 @@ class ManageConnections extends React.Component {
   }
 }
 ManageConnections.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
+  tableActions: PropTypes.object.isRequired,
   connections: PropTypes.array.isRequired,
 };
 function mapStateToProps(state, ownProps) {
   return {
-    connections: state.connections,
+    connections: state.db.connections,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(connectionActions, dispatch),
-    keyspaces: bindActionCreators(keyspaceActions, dispatch),
+    actions: bindActionCreators(dbActions, dispatch),
     errors: bindActionCreators(errorActions, dispatch),
+    tableActions: bindActionCreators(tableActions, dispatch),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ManageConnections);
