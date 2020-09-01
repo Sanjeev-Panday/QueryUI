@@ -5,39 +5,45 @@ import {
   faWifi,
   faMinusCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import Card from "react-bootstrap/Card";
+import PropTypes from "prop-types";
 
-const Connection = (props) => {
-  const handler = (index) => {
-    props.isConnected
-      ? props.handleDisconnect(index)
-      : props.handleConnect(index);
-  };
-  const handleDelete = (name) => {
-    props.handleDelete(name);
-  };
+const Connection = ({ handleConnection, handleDelete, db }) => {
   return (
-    <div className="card">
-      <div className="card-title card-header">
-        <h5>{props.connectionName}</h5>
-      </div>
-      <div className="card-body">
-        <h6 className="card-subtitle mb-2 text-muted">{`${props.host} : ${props.port}`}</h6>
-        <h6 className="card-subtitle mb-2 text-muted">{`DataCenter : ${props.datacenter}`}</h6>
-      </div>
-      <div className="card-footer">
-        <div className="connect-db" onClick={() => handler(props.index)}>
-          <FontAwesomeIcon icon={props.isConnected ? faWifi : faPlug} />
+    <Card>
+      <Card.Header as="h5" className="text-center">
+        {db.connectionName}
+      </Card.Header>
+      <Card.Body>
+        <Card.Subtitle
+          className="mb-2 text-muted"
+          as="h6"
+        >{`${db.host} : ${db.port}`}</Card.Subtitle>
+        <Card.Subtitle
+          className="mb-2 text-muted"
+          as="h6"
+        >{`DataCenter : ${db.datacenter}`}</Card.Subtitle>
+      </Card.Body>
+      <Card.Footer>
+        <div className="connect-db" onClick={() => handleConnection(db)}>
+          <FontAwesomeIcon icon={db.isConnected ? faWifi : faPlug} />
         </div>
-        {!props.isConnected && (
+        {!db.isConnected && (
           <div
             className="delete-connection"
-            onClick={() => handleDelete(props.connectionName)}
+            onClick={() => handleDelete(db.connectionName)}
           >
             <FontAwesomeIcon icon={faMinusCircle} />
           </div>
         )}
-      </div>
-    </div>
+      </Card.Footer>
+    </Card>
   );
 };
+
+Connection.propTypes = {
+  handleConnection: PropTypes.func.isRequired,
+  db: PropTypes.object.isRequired,
+};
+
 export default Connection;

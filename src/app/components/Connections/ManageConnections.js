@@ -2,14 +2,18 @@ import React from "react";
 import Connection from "./Connection";
 import ConnectionForm from "./ConnectionForm";
 import { connect } from "react-redux";
-import * as dbActions from "../../../redux/actions/dbActions";
-import * as errorActions from "../../../redux/actions/errorActions";
-import * as tableActions from "../../../redux/actions/tableActions";
+import {
+  connectToDB,
+  disconnectFromDB,
+  loadConnections,
+  addConnection,
+} from "../../../redux/actions/dbActions";
+import { resetTableData } from "../../../redux/actions/tableActions";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import "./Connection.css";
+import "./css/Connection.css";
 class ManageConnections extends React.Component {
   state = {
     show: false,
@@ -21,6 +25,7 @@ class ManageConnections extends React.Component {
       keyspaces: [],
       isConnected: false,
     },
+    error: {},
   };
 
   handleDelete = (name) => {
@@ -30,13 +35,13 @@ class ManageConnections extends React.Component {
 
   handleDisconnect = (index) => {
     const con = this.props.connections[index];
-    this.props.actions.disconnectFromDB(con);
-    this.props.tableActions.resetTableData();
+    this.props.disconnectFromDB(con);
+    this.props.resetTableData();
   };
 
-  handleConnect = (index) => {
-    const con = this.props.connections[index];
-    this.props.actions.connectToDB(con);
+  handleConnection = (db) => {
+    if (db.isConnected) this.props.disconnectFromDB(db);
+    else this.props.connectToDB(db);
   };
 
   componentDidMount() {
@@ -50,7 +55,7 @@ class ManageConnections extends React.Component {
       obj.connectionName = elem;
       response.push(obj);
     });
-    this.props.actions.loadConnections(response);
+    this.props.loadConnections(response);
   };
   handleChange = ({ target }) => {
     let newState = { ...this.state.connection, [target.name]: target.value };
@@ -64,19 +69,37 @@ class ManageConnections extends React.Component {
     event.preventDefault();
     this.setState({ ...this.state, show: true });
   };
+  validateForm = (error, data) => {
+    if (!data.connectionName)
+      error["connectionName"] = `Connection name is required`;
+    if (!data.host) {
+      error["host"] = `Host name is required`;
+    }
+    if (!data.port) {
+      error["port"] = `Port is required`;
+    }
+
+    if (!data.datacenter) {
+      error["datacenter"] = `Datacenter is required. 
+      If you don't know the datacenter. Try with datacenter1 and pay close attention to the error message while connecting. You will get the correct datacenter name in the error message`;
+    }
+  };
   // Handle the Connect event to connect to the DB
   // This also dispatches actions to redux store
-  handleAddConnect = (event) => {
+  handleSaveConnection = (event) => {
     event.preventDefault();
+    const error = {};
+    this.validateForm(error, this.state.connection);
+    const isValid = Object.keys(error).length === 0;
+    this.setState({ ...this.state, show: !isValid, error });
+    if (Object.keys(error).length > 0) return;
     localStorage.setItem(
       this.state.connection.connectionName,
       JSON.stringify({ ...this.state.connection })
     );
-
-    this.props.actions.addConnection({
+    this.props.addConnection({
       ...this.state.connection,
     });
-    this.setState({ ...this.state, show: false });
   };
   render() {
     return (
@@ -85,15 +108,9 @@ class ManageConnections extends React.Component {
         {this.props.connections &&
           this.props.connections.map((elem, index) => (
             <Connection
-              isConnected={elem.isConnected}
-              handleConnect={this.handleConnect}
-              handleDisconnect={this.handleDisconnect}
-              index={index}
+              handleConnection={this.handleConnection}
               key={elem.connectionName}
-              connectionName={elem.connectionName}
-              host={elem.host}
-              port={elem.port}
-              datacenter={elem.datacenter}
+              db={elem}
               handleDelete={this.handleDelete}
             />
           ))}
@@ -106,19 +123,25 @@ class ManageConnections extends React.Component {
           <FontAwesomeIcon icon={faPlusCircle} />
         </i>
         <ConnectionForm
-          onHide={() => this.setState({ ...this.state, show: false })}
+          onHide={() =>
+            this.setState({ ...this.state, show: false, error: {} })
+          }
           show={this.state.show}
-          connection={this.state.connection}
+          db={this.state.connection}
           onChange={this.handleChange}
-          onSave={this.handleAddConnect}
+          onSaveConnection={this.handleSaveConnection}
+          error={this.state.error}
         />
       </div>
     );
   }
 }
 ManageConnections.propTypes = {
-  actions: PropTypes.object.isRequired,
-  tableActions: PropTypes.object.isRequired,
+  connectToDB: PropTypes.func.isRequired,
+  disconnectFromDB: PropTypes.func.isRequired,
+  loadConnections: PropTypes.func.isRequired,
+  addConnection: PropTypes.func.isRequired,
+  resetTableData: PropTypes.func.isRequired,
   connections: PropTypes.array.isRequired,
 };
 function mapStateToProps(state, ownProps) {
@@ -127,11 +150,12 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(dbActions, dispatch),
-    errors: bindActionCreators(errorActions, dispatch),
-    tableActions: bindActionCreators(tableActions, dispatch),
-  };
-}
+const mapDispatchToProps = {
+  connectToDB,
+  disconnectFromDB,
+  loadConnections,
+  resetTableData,
+  addConnection,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(ManageConnections);

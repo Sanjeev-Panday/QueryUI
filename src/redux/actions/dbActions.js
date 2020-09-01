@@ -32,18 +32,6 @@ export function loadTables(keyspace) {
   };
 }
 
-export function showSpinner() {
-  return {
-    type: actionTypes.SHOW_SPINNER,
-  };
-}
-
-export function hideSpinner() {
-  return {
-    type: actionTypes.HIDE_SPINNER,
-  };
-}
-
 export function connectToDBFailed(error) {
   return {
     type: actionTypes.SHOW_ERROR,
@@ -60,12 +48,21 @@ export function connectToDBSuccess(connection, keyspaces) {
 }
 export function connectToDB(params) {
   return function (dispatch) {
+    dispatch({
+      type: actionTypes.SHOW_SPINNER,
+    });
     ipcRenderer.send("connect:db", params);
     ipcRenderer.once("db:connected", (event, keyspaces) => {
       dispatch(connectToDBSuccess(params, keyspaces));
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
+      });
     });
     ipcRenderer.on("db:connection:failed", (event, msg) => {
       dispatch(connectToDBFailed(msg));
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
+      });
     });
   };
 }

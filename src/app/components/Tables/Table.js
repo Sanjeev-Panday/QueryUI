@@ -1,13 +1,10 @@
 import React from "react";
-const Table = ({ isClicked, name, keyspace, onFetchTableMetaData }) => {
-  const handler = (keyspace, name) => {
-    onFetchTableMetaData(keyspace, name);
-  };
+const Table = ({ clickedItem, table, fetchTableMetaData }) => {
   let style = "list-group-item list-group-item-action";
-  if (isClicked) style += " active";
+  if (clickedItem === table.table_name) style += " active";
   return (
-    <li className={style} onClick={() => handler(keyspace, name)}>
-      {name}
+    <li className={style} onClick={() => fetchTableMetaData(table)}>
+      {table.table_name}
     </li>
   );
 };

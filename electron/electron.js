@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-const isDev = require("electron-is-dev");
-const windows = new Set();
+const url = require("url");
 const {
   getKeyspaces,
   shutdown,
@@ -14,11 +13,15 @@ let connection = null;
 app.on("ready", () => {
   mainWindow = createWindow();
 });
-const createWindow = (exports.createWindow = () => {
-  const startUrl = "http://localhost:3000";
-  /* const startUrl = isDev
-    ? "http://localhost:3000"
-    : `file://${path.join(__dirname, "../build/index.html")}`;*/
+const createWindow = () => {
+  //const startUrl = "http://localhost:3000";
+  const startUrl =
+    process.env.ELECTRON_START_URL ||
+    url.format({
+      pathname: path.join(__dirname, "../index.html"),
+      protocol: "file:",
+      slashes: true,
+    });
   let newWindow = new BrowserWindow({
     width: 1600,
     height: 900,
@@ -35,17 +38,13 @@ const createWindow = (exports.createWindow = () => {
     newWindow.show();
   });
   newWindow.on("closed", () => {
-    // newWindow.removeAllListeners();
-    windows.delete(newWindow);
-    shutdown(connection);
+    if (connection) shutdown(connection);
     mainWindow = null;
     newWindow = null;
   });
 
-  windows.add(newWindow);
-
   return newWindow;
-});
+};
 
 app.on("window-all-closed", () => {
   if (process.platform === "darwin") {
@@ -55,7 +54,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", (event, hasVisibleWindows) => {
-  if (!hasVisibleWindows) createWindow();
+  if (!hasVisibleWindows) mainWindow = createWindow();
 });
 
 ipcMain.on("connect:db", (event, data) => {
@@ -106,14 +105,16 @@ ipcMain.on("execute:query", async (event, query, where) => {
       mainWindow.webContents.send("query:executed", rows);
     })
     .catch((err) => {
-      console.log(err);
-      let msg = getErrorMessage(err);
+      let msg = err.message
+        ? { name: "Query Error", message: err.message }
+        : null;
+      if (!msg) msg = getErrorMessage(err);
       mainWindow.webContents.send("query:execution:failed", msg);
     });
 });
 
 const getErrorMessage = (err) => {
-  let msg = err.innerErrors ? err.innerErrors : {};
+  let msg = err.innerErrors;
   const keys = msg ? Object.keys(msg) : null;
   msg =
     keys && msg[keys[0]]

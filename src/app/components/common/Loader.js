@@ -1,17 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
-class Loader extends React.Component {
-  render() {
-    return this.props.isLoading ? (
-      <div className="loading-container">
-        <Spinner className="spinner" animation="border" size="lg" />
-      </div>
-    ) : (
-      <></>
-    );
-  }
-}
+import PropTypes from "prop-types";
+import "./css/Loader.css";
+
+const Loader = ({ isLoading }) => {
+  return isLoading ? (
+    <div className="loading">
+      <Spinner animation="grow" variant="dark" />
+    </div>
+  ) : (
+    <></>
+  );
+};
+
+Loader.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+};
+
 function mapStateToProps(state) {
   return {
     isLoading: state.loader.isLoading,

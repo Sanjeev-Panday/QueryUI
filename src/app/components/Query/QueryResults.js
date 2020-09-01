@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const QueryResults = ({ rows }) => {
   const tableHeader = (elem) => {
@@ -12,6 +13,7 @@ const QueryResults = ({ rows }) => {
       </tr>
     );
   };
+
   const tableRow = (elem) => {
     const keys = Object.keys(elem);
     return (
@@ -22,8 +24,8 @@ const QueryResults = ({ rows }) => {
       </tr>
     );
   };
-  const isTableRowsPresent = rows && rows.length > 0;
-  return isTableRowsPresent ? (
+  const rowsPresent = rows && rows.length > 0;
+  return rowsPresent ? (
     <div class="query-result">
       <table className="table table-bordered">
         <thead className="thead-dark">{rows && tableHeader(rows[0])}</thead>
@@ -33,6 +35,10 @@ const QueryResults = ({ rows }) => {
   ) : (
     <></>
   );
+};
+
+QueryResults.propTypes = {
+  rows: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

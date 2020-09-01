@@ -1,63 +1,75 @@
 import React from "react";
 import TextInput from "../common/TextInput";
 import Modal from "react-bootstrap/Modal";
-const ConnectionForm = (props) => {
+import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
+
+const ConnectionForm = ({ show, db, onChange, error, onSaveConnection }) => {
   return (
-    <Modal {...props} aria-labelledby="exampleModalCenterTitle" centered>
+    <Modal show={show} aria-labelledby="exampleModalCenterTitle" centered>
       <Modal.Header closeButton>
         <Modal.Title id="exampleModalLongTitle">New Connection</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form onSubmit={props.onSave}>
+        <form>
           <TextInput
             type="text"
             label="Connection Name"
             id="connectionName"
             name="connectionName"
-            value={props.connection.connectionName}
-            onChange={props.onChange}
+            value={db.connectionName}
+            onChange={onChange}
             size="col-md-12"
+            error={error && error.connectionName}
+            isRequired={true}
           />
           <TextInput
             label="Host"
             id="host"
             name="host"
-            value={props.connection.host}
-            onChange={props.onChange}
+            value={db.host}
+            onChange={onChange}
             size="col-md-12"
+            error={error && error.host}
+            isRequired={true}
           />
-
           <TextInput
             id="port"
             name="port"
             label="PORT"
-            value={props.connection.port}
-            onChange={props.onChange}
+            value={db.port}
+            onChange={onChange}
             size="col-md-3"
+            error={error && error.port}
+            isRequired={true}
           />
-
           <TextInput
             label="DataCenter"
             id="datacenter"
             name="datacenter"
-            value={props.connection.datacenter}
-            onChange={props.onChange}
+            value={db.datacenter}
+            onChange={onChange}
             size="col-md-12"
+            error={error.datacenter}
+            isRequired={true}
           />
         </form>
       </Modal.Body>
       <Modal.Footer>
-        <button
-          onClick={props.onSave}
-          type="button"
-          className="btn btn-primary"
-          data-dismiss="modal"
-        >
+        <Button onClick={onSaveConnection} data-dismiss="modal">
           Save
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );
+};
+
+ConnectionForm.propTypes = {
+  show: PropTypes.bool.isRequired,
+  db: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.object,
+  onSaveConnection: PropTypes.func.isRequired,
 };
 
 export default ConnectionForm;

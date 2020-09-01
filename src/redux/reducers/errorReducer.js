@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-export default function errorReducer(state = [], action) {
+export default function errorReducer(state = {}, action) {
   switch (action.type) {
     case actionTypes.SHOW_ERROR:
       console.log("inside show error reducer", action.error);

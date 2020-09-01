@@ -1,29 +1,25 @@
 import React, { useState } from "react";
 import Keyspace from "./Keyspace";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as dbActions from "../../../redux/actions/dbActions";
-import * as tableActions from "../../../redux/actions/tableActions";
-import Loader from "../common/Loader";
-const Keyspaces = (props) => {
-  const [clickedItem, setClickedItem] = useState(-1);
-  const handleClick = (index) => {
-    const name = props.keyspaces[index];
-    props.dbActions.loadTables(name);
-    props.tableActions.resetTableData();
-    setClickedItem(index);
+import { loadTables } from "../../../redux/actions/dbActions";
+import { resetTableData } from "../../../redux/actions/tableActions";
+
+const Keyspaces = ({ loadTables, resetTableData, keyspaces }) => {
+  const [selectedItem, setSelectedItem] = useState("");
+  const handleClick = (name) => {
+    loadTables(name);
+    resetTableData();
+    setSelectedItem(name);
   };
   return (
     <div id="keyspaces">
       <h4>Keyspaces</h4>
-      <Loader />
-      {props.keyspaces ? (
+      {keyspaces ? (
         <div className="list-group">
-          {props.keyspaces.map((elem, index) => (
+          {keyspaces.map((elem, index) => (
             <Keyspace
-              clickedItem={clickedItem}
+              clickedItem={selectedItem}
               key={index}
-              index={index}
               name={elem}
               handleClick={handleClick}
             />
@@ -41,10 +37,8 @@ function mapStateToProps(state, ownProps) {
     keyspaces: state.db.keyspaces,
   };
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    dbActions: bindActionCreators(dbActions, dispatch),
-    tableActions: bindActionCreators(tableActions, dispatch),
-  };
-}
+const mapDispatchToProps = {
+  loadTables,
+  resetTableData,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Keyspaces);

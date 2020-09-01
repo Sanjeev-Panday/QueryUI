@@ -1,43 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import QueryForm from "./QueryForm";
-import { bindActionCreators } from "redux";
-import * as tableActions from "../../../redux/actions/tableActions";
-const Query = (props) => {
-  const tableinfo = props.tableinfo;
+import { executeQuery } from "../../../redux/actions/tableActions";
+import { Button, Alert } from "react-bootstrap";
+import PropTypes from "prop-types";
+
+const Query = ({ tableinfo, executeQuery }) => {
   const { keyspaceName, name, partitionKeys, clusteringKeys } = tableinfo;
-  const [state, setState] = useState({ ...props.queryForm });
-  const executeQuery = (event) => {
+
+  const [queryForm, setQueryForm] = useState({});
+  const [error, setError] = useState({});
+
+  useEffect(() => {
+    setQueryForm({});
+    setError({});
+  }, [tableinfo.name]);
+
+  const fetchTableRows = (event) => {
     event.preventDefault();
 
     let queryString = `select * from ${keyspaceName}.${name} where `;
     const where = [];
+    const error = {};
     partitionKeys.forEach((elem) => {
-      if (state[elem.name] && state[elem.name].trim() !== "") {
+      if (queryForm[elem.name] && queryForm[elem.name].trim() !== "") {
         queryString += elem.name + " = ? and ";
-        where.push(state[elem.name]);
+        where.push(queryForm[elem.name]);
+      } else {
+        error[elem.name] = `${elem.name} is required`;
       }
     });
+
+    if (Object.keys(error).length > 0) {
+      setError(error);
+      return;
+    }
     clusteringKeys &&
       clusteringKeys.forEach((elem) => {
-        if (state[elem.name] && state[elem.name].trim() !== "") {
+        if (queryForm[elem.name] && queryForm[elem.name].trim() !== "") {
           queryString += elem.name + " = ? and ";
-          where.push(state[elem.name]);
+          where.push(queryForm[elem.name]);
         }
       });
     queryString =
       queryString.substr(0, queryString.lastIndexOf("and")).trim() + ";";
 
-    props.tableActions.executeQuery(queryString, where);
+    executeQuery(queryString, where);
   };
   const handleChange = ({ target }) => {
-    setState({
-      ...state,
+    setQueryForm({
+      ...queryForm,
       [target.name]: target.value,
     });
   };
-  const isPartitionKeysPresent =
-    tableinfo.partitionKeys && tableinfo.partitionKeys.length > 0;
+
+  const isPartitionKeysPresent = partitionKeys && partitionKeys.length > 0;
 
   const isClusteringKeysPresent =
     tableinfo.clusteringKeys && tableinfo.clusteringKeys.length > 0;
@@ -45,31 +62,30 @@ const Query = (props) => {
     <>
       <form>
         <QueryForm
-          columns={tableinfo.partitionKeys}
+          columns={partitionKeys}
           handleChange={handleChange}
           heading="Partition Keys"
           isRequired={true}
+          error={error}
+          queryForm={queryForm}
         />
         {isClusteringKeysPresent && (
           <QueryForm
-            columns={tableinfo.clusteringKeys}
+            columns={clusteringKeys}
             handleChange={handleChange}
             heading="Clustering Keys"
+            queryForm={queryForm}
           />
         )}
-        <button
-          type="submit"
-          className="btn btn-success"
-          onClick={executeQuery}
-        >
+        <Button variant="success " onClick={fetchTableRows}>
           Execute
-        </button>
+        </Button>
       </form>
     </>
   ) : (
     <div className="info">
-      <div className="alert alert-success" role="alert">
-        <h5 className="alert-heading">Query form!</h5>
+      <Alert variant="info">
+        <Alert.Heading as="h5">Query form!</Alert.Heading>
         <p>
           You will get a form to execute CQL queries after you select a table
           from <b>Tables</b> section in the left pannel
@@ -80,19 +96,22 @@ const Query = (props) => {
           <b> keyspaces </b>
           section.
         </p>
-      </div>
+      </Alert>
     </div>
   );
 };
+
+Query.propTypes = {
+  tableinfo: PropTypes.object.isRequired,
+  executeQuery: PropTypes.func.isRequired,
+};
+
 function mapStateToProps(state) {
   return {
     tableinfo: state.table.tableinfo,
-    queryForm: state.table.queryForm,
   };
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    tableActions: bindActionCreators(tableActions, dispatch),
-  };
-}
+const mapDispatchToProps = {
+  executeQuery,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Query);

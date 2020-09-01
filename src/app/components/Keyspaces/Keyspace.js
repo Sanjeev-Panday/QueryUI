@@ -1,14 +1,12 @@
 import React from "react";
-const Keyspace = ({ clickedItem, index, name, handleClick }) => {
-  const handler = (index) => {
-    handleClick(index);
-  };
-  const style =
-    clickedItem === index
-      ? "list-group-item list-group-item-action active"
-      : "list-group-item list-group-item-action";
+
+const Keyspace = ({ clickedItem, name, handleClick }) => {
+  let style = "list-group-item list-group-item-action";
+  if (clickedItem === name) {
+    style += " active";
+  }
   return (
-    <li className={style} onClick={() => handler(index)}>
+    <li className={style} onClick={() => handleClick(name)}>
       {name}
     </li>
   );

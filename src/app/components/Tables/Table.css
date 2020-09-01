@@ -1,0 +1,16 @@
+#left-content {
+  position: relative;
+}
+#left-content h4 {
+  background-color: #f3e6e3;
+  border-radius: 2px;
+  color: #776d8a;
+}
+#left-content input {
+  background-color: #cffffe;
+  color: #776d8a;
+  display: block;
+  position: sticky;
+  top: -0.4rem;
+  z-index: 100;
+}

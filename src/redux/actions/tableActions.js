@@ -4,6 +4,9 @@ const { ipcRenderer } = window.require("electron");
 
 export function loadTableMetaData(keyspace, table) {
   return function (dispatch) {
+    dispatch({
+      type: actionTypes.SHOW_SPINNER,
+    });
     ipcRenderer.send("fetch:tableinfo", keyspace, table);
     ipcRenderer.once("tableinfo:fetched", (event, tableinfo) => {
       tableinfo = { ...tableinfo };
@@ -11,6 +14,9 @@ export function loadTableMetaData(keyspace, table) {
       dispatch({
         type: actionTypes.LOAD_TABLE_META_DATA,
         tableinfo,
+      });
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
       });
     });
   };
@@ -24,6 +30,9 @@ export function resetTableData() {
 
 export function executeQuery(query, where) {
   return function (dispatch) {
+    dispatch({
+      type: actionTypes.SHOW_SPINNER,
+    });
     ipcRenderer.send("execute:query", query, where);
     ipcRenderer.once("query:executed", (event, rows) => {
       (!rows || rows.length === 0) &&
@@ -31,14 +40,22 @@ export function executeQuery(query, where) {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         });
+
       dispatch({
         type: actionTypes.FETCH_TABLE_ROWS,
         rows,
       });
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
+      });
     });
-    ipcRenderer.once("query:execution:failed", (event, msg) => {
-      toast.warn(msg, {
-        position: toast.POSITION.TOP_CENTER,
+    ipcRenderer.once("query:execution:failed", (event, error) => {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        error,
+      });
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
       });
     });
   };

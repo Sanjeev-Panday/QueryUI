@@ -2,27 +2,23 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import * as errorActions from "../../../redux/actions/errorActions";
-import { bindActionCreators } from "redux";
-const ErrorMessage = (props) => {
-  const hideMessage = () => {
-    console.log();
-    props.errors.hideErrorMessage();
-  };
+import { hideErrorMessage } from "../../../redux/actions/errorActions";
+import PropTypes from "prop-types";
 
+const ErrorMessage = ({ error, hideErrorMessage }) => {
   return (
     <Modal
-      show={props.error.show}
+      show={error.show}
       aria-labelledby="exampleModalCenterError"
-      onHide={hideMessage}
+      onHide={() => hideErrorMessage()}
     >
       <Modal.Header closeButton>
-        <Modal.Title>{props.error.heading}</Modal.Title>
+        <Modal.Title>{error.heading}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{props.error.msg}</Modal.Body>
+      <Modal.Body>{error.msg}</Modal.Body>
       <hr />
       <Modal.Footer>
-        <Button variant="success" onClick={hideMessage}>
+        <Button variant="success" onClick={() => hideErrorMessage()}>
           Close
         </Button>
       </Modal.Footer>
@@ -36,9 +32,13 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    errors: bindActionCreators(errorActions, dispatch),
-  };
-}
+const mapDispatchToProps = {
+  hideErrorMessage,
+};
+
+ErrorMessage.propTypes = {
+  error: PropTypes.object.isRequired,
+  hideErrorMessage: PropTypes.func.isRequired,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorMessage);

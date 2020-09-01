@@ -1,8 +1,10 @@
 import React from "react";
 import Columns from "./Columns";
 import { connect } from "react-redux";
-import QueryResults from "../QueryResults/QueryResults";
+import QueryResults from "../Query/QueryResults";
+import PropTypes from "prop-types";
 const TableInfo = ({ rows, tableinfo }) => {
+  const { partitionKeys, clusteringKeys, columns } = tableinfo;
   const displayTableMetaData = !rows || rows.length === 0;
   return (
     <>
@@ -10,23 +12,25 @@ const TableInfo = ({ rows, tableinfo }) => {
         <QueryResults />
       </div>
       <div className="tableinfo">
-        {displayTableMetaData && tableinfo && tableinfo.columns && (
+        {displayTableMetaData && tableinfo && columns && (
           <>
-            <Columns label="Columns" columns={tableinfo.columns} />
-            <Columns label="Partition Keys" columns={tableinfo.partitionKeys} />
-            {tableinfo.clusteringKeys &&
-              tableinfo.clusteringKeys.length > 0 && (
-                <Columns
-                  label="Clustering Keys"
-                  columns={tableinfo.clusteringKeys}
-                />
-              )}
+            <Columns label="Columns" columns={columns} />
+            <Columns label="Partition Keys" columns={partitionKeys} />
+            {clusteringKeys && clusteringKeys.length > 0 && (
+              <Columns label="Clustering Keys" columns={clusteringKeys} />
+            )}
           </>
         )}
       </div>
     </>
   );
 };
+
+TableInfo.propTypes = {
+  rows: PropTypes.array,
+  tableinfo: PropTypes.object.isRequired,
+};
+
 function mapStateToProps(state) {
   return {
     tableinfo: state.table.tableinfo,

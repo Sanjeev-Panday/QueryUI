@@ -1,5 +1,7 @@
 import React from "react";
 import TableRow from "./TableRow";
+import PropTypes from "prop-types";
+
 const Columns = ({ label, columns }) => {
   return (
     <div className="table-meta-data">
@@ -18,6 +20,11 @@ const Columns = ({ label, columns }) => {
       </table>
     </div>
   );
+};
+
+Columns.propTypes = {
+  label: PropTypes.string.isRequired,
+  columns: PropTypes.array.isRequired,
 };
 
 export default Columns;

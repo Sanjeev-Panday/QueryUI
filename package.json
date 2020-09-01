@@ -26,15 +26,17 @@
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0"
   },
-  "main": "electron/main.js",
+  "main": "electron/electron.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "preelectron-pack": "yarn build",
+    "electron-pack": "electron-builder build --mac -c.extraMetadata.main=build/electron.js --publish never",
     "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build-electron": "cp -r electron/. build/electron",
-    "package": "electron-builder build --win -c.extraMetadata.main=build/electron/main.js --publish never"
+    "build-electron": "mkdir build/src && cp -r electron/. build/electron && cp -r src/server/. build/src/server",
+    "package": "electron-builder build --mac -c.extraMetadata.main=build/electron/electron.js --publish never"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -65,6 +67,9 @@
       "build/**/*",
       "node_modules/**/*"
     ],
+    "directories": {
+      "buildResources": "assets"
+    },
     "publish": {
       "provider": "github",
       "repo": "cassandra-explorer",
