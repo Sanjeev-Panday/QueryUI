@@ -19,7 +19,7 @@ const QueryResults = ({ rows }) => {
     return (
       <tr>
         {keys.map((key) => (
-          <td>{elem[key] && elem[key].toString()}</td>
+          <td>{elem[key] && JSON.stringify(elem[key])}</td>
         ))}
       </tr>
     );

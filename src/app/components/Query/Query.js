@@ -16,6 +16,11 @@ const Query = ({ tableinfo, executeQuery }) => {
     setError({});
   }, [tableinfo.name]);
 
+  const fetchAllRows = (event) => {
+    event.preventDefault();
+    let queryString = `select * from ${keyspaceName}.${name} limit 300;`;
+    executeQuery(queryString, []);
+  };
   const fetchTableRows = (event) => {
     event.preventDefault();
 
@@ -77,9 +82,14 @@ const Query = ({ tableinfo, executeQuery }) => {
             queryForm={queryForm}
           />
         )}
-        <Button variant="success " onClick={fetchTableRows}>
-          Execute
-        </Button>
+        <div className="control-section">
+          <Button variant="success " onClick={fetchTableRows}>
+            Execute
+          </Button>
+          <Button ariant="success " onClick={fetchAllRows}>
+            Select All
+          </Button>
+        </div>
       </form>
     </>
   ) : (
