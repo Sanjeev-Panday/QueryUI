@@ -14,14 +14,14 @@ app.on("ready", () => {
   mainWindow = createWindow();
 });
 const createWindow = () => {
-  //const startUrl = "http://localhost:3000";
-  const startUrl =
+  const startUrl = "http://localhost:3000";
+  /*const startUrl =
     process.env.ELECTRON_START_URL ||
     url.format({
       pathname: path.join(__dirname, "../index.html"),
       protocol: "file:",
       slashes: true,
-    });
+    });*/
   let newWindow = new BrowserWindow({
     width: 1600,
     height: 900,
