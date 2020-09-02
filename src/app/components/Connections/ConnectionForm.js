@@ -4,9 +4,21 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 
-const ConnectionForm = ({ show, db, onChange, error, onSaveConnection }) => {
+const ConnectionForm = ({
+  show,
+  db,
+  onChange,
+  error,
+  onSaveConnection,
+  ...props
+}) => {
   return (
-    <Modal show={show} aria-labelledby="exampleModalCenterTitle" centered>
+    <Modal
+      {...props}
+      show={show}
+      aria-labelledby="exampleModalCenterTitle"
+      centered
+    >
       <Modal.Header closeButton>
         <Modal.Title id="exampleModalLongTitle">New Connection</Modal.Title>
       </Modal.Header>
