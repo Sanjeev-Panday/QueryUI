@@ -13,7 +13,7 @@ let connection = null;
 let splashScreen = null;
 const loadSplashScreen = () => {
   const urlOfLoading = url.format({
-    pathname: path.join(__dirname, "../public/loading.html"),
+    pathname: path.join(__dirname, "../loading.html"),
     protocol: "file:",
     slashes: true,
   });
