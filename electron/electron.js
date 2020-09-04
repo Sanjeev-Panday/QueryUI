@@ -37,7 +37,6 @@ const createWindow = () => {
   newWindow.webContents.loadURL(startUrl);
 
   newWindow.on("ready-to-show", () => {
-    autoUpdater.checkForUpdatesAndNotify();
     newWindow.show();
   });
   newWindow.on("closed", () => {
