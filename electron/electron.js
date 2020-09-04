@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
 const {
@@ -12,6 +12,7 @@ let mainWindow = null;
 let connection = null;
 app.on("ready", () => {
   mainWindow = createWindow();
+  Menu.setApplicationMenu(null);
 });
 const storage = require("electron-json-storage");
 const createWindow = () => {
@@ -36,6 +37,7 @@ const createWindow = () => {
   newWindow.webContents.loadURL(startUrl);
 
   newWindow.on("ready-to-show", () => {
+    autoUpdater.checkForUpdatesAndNotify();
     newWindow.show();
   });
   newWindow.on("closed", () => {

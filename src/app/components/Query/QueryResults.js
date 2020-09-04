@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "./css/Query.css";
-import ContextMenu from "../common/ContextMenu";
 
 const QueryResults = ({ rows }) => {
   const tableHeader = (elem) => {
@@ -36,7 +35,6 @@ const QueryResults = ({ rows }) => {
   const rowsPresent = rows && rows.length > 0;
   return rowsPresent ? (
     <div class="query-result">
-      <ContextMenu />
       <table id="mt" className="table table-bordered table-hover">
         <thead className="thead-dark">{rows && tableHeader(rows[0])}</thead>
         <tbody>
