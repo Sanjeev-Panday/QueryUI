@@ -18,7 +18,6 @@ export default function tableReducer(state = INITIAL_STATE, action) {
       return { ...state, tablerows: [] };
     case actionTypes.UPDATE_QUERY_FORM:
       let newForm = { ...state.queryForm, [action.target]: action.value };
-      console.log({ ...state, queryForm: newForm });
       return { ...state, queryForm: newForm };
     case actionTypes.RESET_QUERY_FORM:
       return { ...state, queryForm: {} };

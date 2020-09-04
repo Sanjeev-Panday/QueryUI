@@ -7,6 +7,7 @@ import {
   disconnectFromDB,
   loadConnections,
   addConnection,
+  deleteConnection,
 } from "../../../redux/actions/dbActions";
 import { resetTableData } from "../../../redux/actions/tableActions";
 import PropTypes from "prop-types";
@@ -29,8 +30,8 @@ class ManageConnections extends React.Component {
   };
 
   handleDelete = (name) => {
-    localStorage.removeItem(name);
-    this.refreshConnections();
+    console.log("çonnection to be deleted ", name);
+    this.props.deleteConnection(name);
   };
 
   handleDisconnect = (index) => {
@@ -48,14 +49,7 @@ class ManageConnections extends React.Component {
     this.refreshConnections();
   }
   refreshConnections = () => {
-    const keys = Object.keys(localStorage);
-    const response = [];
-    keys.forEach((elem) => {
-      const obj = JSON.parse(localStorage.getItem(elem));
-      obj.connectionName = elem;
-      response.push(obj);
-    });
-    this.props.loadConnections(response);
+    this.props.loadConnections();
   };
   handleChange = ({ target }) => {
     let newState = { ...this.state.connection, [target.name]: target.value };
@@ -93,14 +87,11 @@ class ManageConnections extends React.Component {
     const isValid = Object.keys(error).length === 0;
     this.setState({ ...this.state, show: !isValid, error });
     if (Object.keys(error).length > 0) return;
-    localStorage.setItem(
-      this.state.connection.connectionName,
-      JSON.stringify({ ...this.state.connection })
-    );
     this.props.addConnection({
       ...this.state.connection,
     });
   };
+
   render() {
     return (
       <div id="connections">
@@ -141,6 +132,7 @@ ManageConnections.propTypes = {
   disconnectFromDB: PropTypes.func.isRequired,
   loadConnections: PropTypes.func.isRequired,
   addConnection: PropTypes.func.isRequired,
+  deleteConnection: PropTypes.func.isRequired,
   resetTableData: PropTypes.func.isRequired,
   connections: PropTypes.array.isRequired,
 };
@@ -156,6 +148,7 @@ const mapDispatchToProps = {
   loadConnections,
   resetTableData,
   addConnection,
+  deleteConnection,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageConnections);

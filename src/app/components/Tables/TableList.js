@@ -35,15 +35,18 @@ const TableList = (props) => {
   return (
     <aside id="left-content">
       <h4>Tables</h4>
-      <input
-        className="form-control mb-2 mt-2"
-        id="myInput"
-        type="text"
-        placeholder="Search.."
-        onKeyUp={handleKeyUp}
-      />
-
-      <div className="list-group">{filterList()}</div>
+      <ul className="list-group">
+        <li className="list-group-header">
+          <input
+            className="form-control mb-2 mt-2"
+            id="myInput"
+            type="text"
+            placeholder="Search.."
+            onKeyUp={handleKeyUp}
+          />
+        </li>
+        {filterList()}
+      </ul>
     </aside>
   );
 };

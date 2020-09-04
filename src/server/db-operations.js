@@ -55,7 +55,6 @@ const getTables = async (params, keyspace) => {
   });
 };
 const executeQuery = async (params, query, where) => {
-  console.log(query, where);
   const client = await connection(
     params.host,
     params.port,

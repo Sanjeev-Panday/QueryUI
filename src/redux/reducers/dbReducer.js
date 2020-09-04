@@ -8,13 +8,20 @@ const INITIAL_STATE = {
 export default function dbReducer(state = INITIAL_STATE, action) {
   let connections = [];
   switch (action.type) {
-    case actionTypes.ADD_CONNECTION:
-      console.log({ ...state });
+    case actionTypes.ADD_CONNECTION_SUCCESS:
       connections = [...state.connections];
       connections.push(action.connection);
       return { ...state, connections };
 
-    case actionTypes.LOAD_CONNECTIONS:
+    case actionTypes.DELETE_CONNECTION_SUCCESS:
+      console.log(" name is ", action.name);
+      connections = [...state.connections].filter(
+        (con) => con.connectionName !== action.name
+      );
+      console.log({ ...state, connections });
+      return { ...state, connections };
+
+    case actionTypes.LOAD_CONNECTIONS_SUCCESS:
       return { ...state, connections: action.connections };
 
     case actionTypes.OPEN_CONNECTION:

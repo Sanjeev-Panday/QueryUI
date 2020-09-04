@@ -13,15 +13,16 @@ let connection = null;
 app.on("ready", () => {
   mainWindow = createWindow();
 });
+const storage = require("electron-json-storage");
 const createWindow = () => {
-  const startUrl = "http://localhost:3000";
-  /*const startUrl =
+  //const startUrl = "http://localhost:3000";
+  const startUrl =
     process.env.ELECTRON_START_URL ||
     url.format({
       pathname: path.join(__dirname, "../index.html"),
       protocol: "file:",
       slashes: true,
-    });*/
+    });
   let newWindow = new BrowserWindow({
     width: 1600,
     height: 900,
@@ -55,6 +56,44 @@ app.on("window-all-closed", () => {
 
 app.on("activate", (event, hasVisibleWindows) => {
   if (!hasVisibleWindows) mainWindow = createWindow();
+});
+
+const getAllConnections = () => {
+  return new Promise((resolve, reject) => {
+    storage.getAll((error, data) => {
+      if (!error) {
+        const response = [];
+        const keys = Object.keys(data);
+        keys &&
+          keys.forEach((key) => {
+            response.push(data[key]);
+          });
+        resolve(response);
+      } else {
+        reject(error);
+      }
+    });
+  });
+};
+ipcMain.on("load:connections", (event) => {
+  getAllConnections()
+    .then((response) => {
+      mainWindow.webContents.send("connections:loaded", response);
+    })
+    .catch((err) => {
+      mainWindow.webContents.send("connections:loaded", []);
+    });
+});
+
+ipcMain.on("add:connection", (event, connection) => {
+  storage.set(connection.connectionName, connection);
+  mainWindow.webContents.send("connection:added");
+});
+
+ipcMain.on("delete:connection", (event, name) => {
+  storage.remove(name, (err) => {
+    if (!err) mainWindow.webContents.send("connection:deleted");
+  });
 });
 
 ipcMain.on("connect:db", (event, data) => {
@@ -121,7 +160,7 @@ const getErrorMessage = (err) => {
       ? msg[keys[0]]
       : {
           name: "Error",
-          message: "Please check the connection parameters and try again",
+          message: "Please check the parameters and try again",
         };
   return msg;
 };

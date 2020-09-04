@@ -5,7 +5,7 @@ body {
   font-family: monospace;
   font-size: 14px;
 }
-#root {
+.window-content {
   height: 95vh;
   display: grid;
   grid: 300px 1fr / minmax(200px, max-content) 1fr minmax(200px, max-content);

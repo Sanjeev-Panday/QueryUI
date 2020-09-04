@@ -84,7 +84,7 @@ const Query = ({ tableinfo, executeQuery }) => {
         )}
         <div className="control-section">
           <Button variant="success " onClick={fetchTableRows}>
-            Execute
+            Select
           </Button>
           <Button ariant="success " onClick={fetchAllRows}>
             Select All

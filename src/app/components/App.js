@@ -10,23 +10,25 @@ import Loader from "./common/Loader";
 import "./App.scss";
 const App = () => {
   return (
-    <>
-      <Loader />
-      <ErrorMessage />
-      <TableList />
-      <main id="query-content">
-        <Query />
-      </main>
-      <main id="result-content">
+    <div className="window">
+      <div className="window-content">
         <Loader />
-        <TableInfo />
-      </main>
-      <aside id="right-content">
-        <Keyspaces />
-        <ManageConnections />
-      </aside>
-      <ToastContainer />
-    </>
+        <ErrorMessage />
+        <TableList />
+        <main id="query-content">
+          <Query />
+        </main>
+        <main id="result-content">
+          <Loader />
+          <TableInfo />
+        </main>
+        <aside id="right-content">
+          <Keyspaces />
+          <ManageConnections />
+        </aside>
+        <ToastContainer />
+      </div>
+    </div>
   );
 };
 

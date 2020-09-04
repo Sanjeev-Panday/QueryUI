@@ -1,0 +1,8 @@
+#contextMenu {
+  position: absolute;
+  display: block;
+}
+.fetch-all-form {
+  display: flex;
+  justify-content: space-between;
+}

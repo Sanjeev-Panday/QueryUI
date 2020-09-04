@@ -2,18 +2,7 @@ import * as actionTypes from "./actionTypes";
 
 //import { getKeyspaces } from "../../server/db-operations";
 const { ipcRenderer } = window.require("electron");
-export function addConnection(connection) {
-  return {
-    type: actionTypes.ADD_CONNECTION,
-    connection: connection,
-  };
-}
-export const loadConnections = (connections) => {
-  return {
-    type: actionTypes.LOAD_CONNECTIONS,
-    connections,
-  };
-};
+
 export function loadKeyspaces(keyspaces) {
   return {
     type: actionTypes.LOAD_KEYSPACES,
@@ -79,6 +68,36 @@ export function disconnectFromDB(params) {
     ipcRenderer.send("disconnect:db", params);
     ipcRenderer.once("db:disconnected", (event, _) => {
       dispatch(disconnectFromDBSuccess(params));
+    });
+  };
+}
+
+export function loadConnections() {
+  return function (dispatch) {
+    ipcRenderer.send("load:connections");
+    ipcRenderer.once("connections:loaded", (event, connections) => {
+      dispatch({
+        type: actionTypes.LOAD_CONNECTIONS_SUCCESS,
+        connections,
+      });
+    });
+  };
+}
+
+export function addConnection(connection) {
+  return function (dispatch) {
+    ipcRenderer.send("add:connection", connection);
+    ipcRenderer.once("connection:added", (event, _) => {
+      dispatch({ type: actionTypes.ADD_CONNECTION_SUCCESS, connection });
+    });
+  };
+}
+
+export function deleteConnection(name) {
+  return function (dispatch) {
+    ipcRenderer.send("delete:connection", name);
+    ipcRenderer.once("connection:deleted", (event, _) => {
+      dispatch({ type: actionTypes.DELETE_CONNECTION_SUCCESS, name });
     });
   };
 }
