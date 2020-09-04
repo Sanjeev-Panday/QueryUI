@@ -17,7 +17,7 @@
 <br/>
 <h4>Multiple connections can be saved.</h4> 
 <img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image5.png"/>
-
+</body>
 ## How To Use
 You can either
 #### [Download Released App](https://github.com/Sanjeev-Panday/cassandra-explorer/releases)
@@ -36,5 +36,5 @@ cd cassandra-explorer
 # Install dependencies and run the app
 npm install 
 npm run dev
-</body>
+
 
