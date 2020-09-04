@@ -10,7 +10,35 @@ const {
 } = require("../src/server/db-operations");
 let mainWindow = null;
 let connection = null;
+let splashScreen = null;
+const loadSplashScreen = () => {
+  const urlOfLoading = url.format({
+    pathname: path.join(__dirname, "../public/loading.html"),
+    protocol: "file:",
+    slashes: true,
+  });
+  splashScreen = new BrowserWindow({
+    width: 300,
+    height: 350,
+    show: false,
+    parent: mainWindow,
+    frame: false,
+    backgroundColor: "#2e2c29",
+    center: true,
+  });
+  console.log(__dirname);
+  splashScreen.webContents.loadURL(urlOfLoading);
+  splashScreen.webContents.on("did-finish-load", () => {
+    //splashScreen.setApplicationMenu(null);
+    splashScreen.show();
+  });
+  splashScreen.on("closed", () => {
+    splashScreen = null;
+  });
+};
+
 app.on("ready", () => {
+  loadSplashScreen();
   mainWindow = createWindow();
   Menu.setApplicationMenu(null);
 });
@@ -25,11 +53,12 @@ const createWindow = () => {
       slashes: true,
     });
   let newWindow = new BrowserWindow({
-    width: 1600,
-    height: 900,
+    width: 1200,
+    height: 700,
     minWidth: 800,
     minHeight: 400,
     show: false,
+    center: true,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -37,7 +66,12 @@ const createWindow = () => {
   newWindow.webContents.loadURL(startUrl);
 
   newWindow.on("ready-to-show", () => {
-    newWindow.show();
+    setTimeout(() => {
+      newWindow.show();
+      if (splashScreen) {
+        splashScreen.close();
+      }
+    }, 2000);
   });
   newWindow.on("closed", () => {
     if (connection) shutdown(connection);
