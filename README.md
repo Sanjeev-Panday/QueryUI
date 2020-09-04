@@ -18,5 +18,23 @@
 <h4>Multiple connections can be saved.</h4> 
 <img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image5.png"/>
 
+## How To Use
+You can either
+#### [Download Released App](https://github.com/Sanjeev-Panday/cassandra-explorer/releases)
+Extract it somewhere, and then run the executable.
+
+or
+#### Package app manually from sources
+
+To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) installed on your computer. From your command line:
+
+``` bash
+# Clone this repository
+git clone https://github.com/Sanjeev-Panday/cassandra-explorer.git
+# Go into the repository
+cd cassandra-explorer
+# Install dependencies and run the app
+npm install 
+npm run dev
 </body>
 
