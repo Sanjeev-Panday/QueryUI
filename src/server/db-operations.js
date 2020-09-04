@@ -82,15 +82,6 @@ const executeQuery = async (params, query, where) => {
         else resolve(rows);
       }
     );
-    /* client
-      .execute(query, where, { prepare: true })
-      .then((result) => {
-        console.log("inside execute query ", result);
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });*/
   });
 };
 const shutdown = async (params) => {

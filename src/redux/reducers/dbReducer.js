@@ -14,11 +14,9 @@ export default function dbReducer(state = INITIAL_STATE, action) {
       return { ...state, connections };
 
     case actionTypes.DELETE_CONNECTION_SUCCESS:
-      console.log(" name is ", action.name);
       connections = [...state.connections].filter(
         (con) => con.connectionName !== action.name
       );
-      console.log({ ...state, connections });
       return { ...state, connections };
 
     case actionTypes.LOAD_CONNECTIONS_SUCCESS:
