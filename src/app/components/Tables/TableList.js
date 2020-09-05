@@ -15,6 +15,9 @@ const TableList = (props) => {
   const handleKeyUp = (event) => {
     setInput(event.target.value);
   };
+  const handleRightClick = (index) => {
+    props.actions.showContextMenu(index, "table");
+  };
   const filterList = (event) => {
     const filteredList =
       props.tables &&
@@ -26,6 +29,8 @@ const TableList = (props) => {
               clickedItem={selectedItem}
               key={table.table_name}
               table={table}
+              index={index}
+              onRightClick={handleRightClick}
               fetchTableMetaData={handleFetchTableMetaData}
             />
           );

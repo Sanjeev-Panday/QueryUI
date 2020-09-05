@@ -42,7 +42,6 @@ export default function dbReducer(state = INITIAL_STATE, action) {
       return { ...state, connections, keyspaces: [], tables: [] };
 
     case actionTypes.CONNECTION_FAILED:
-      console.log({ ...state, keyspaces: [], tables: [], error: action.error });
       return { ...state, keyspaces: [], tables: [], error: action.error };
     case actionTypes.LOAD_TABLES:
       return { ...state, tables: action.tables };

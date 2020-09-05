@@ -30,7 +30,6 @@ class ManageConnections extends React.Component {
   };
 
   handleDelete = (name) => {
-    console.log("çonnection to be deleted ", name);
     this.props.deleteConnection(name);
   };
 

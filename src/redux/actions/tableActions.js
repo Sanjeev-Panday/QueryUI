@@ -75,3 +75,46 @@ export function updateQueryForm(target, value) {
     type: actionTypes.UPDATE_QUERY_FORM,
   };
 }
+export function showContextMenu(clickedRow, type) {
+  return {
+    type: actionTypes.SHOW_CONTEXT_MENU,
+    clickedRow,
+    menuType: type,
+  };
+}
+export function copySelectedRow() {
+  return function (dispatch, getState) {
+    const { tablerows, clickedRow } = getState().table;
+    ipcRenderer.send("copy:row", JSON.stringify(tablerows[clickedRow]));
+    ipcRenderer.once("row:copied", () => {
+      toast.success("Copied!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    });
+  };
+}
+export function saveSelectedRow() {
+  return function (dispatch, getState) {
+    const { tablerows, clickedRow } = getState().table;
+    ipcRenderer.send("save:row", JSON.stringify(tablerows[clickedRow]));
+    ipcRenderer.once("row:saved", () => {
+      toast.success("Saved Successfully!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    });
+  };
+}
+export function saveAllRows() {
+  return function (dispatch, getState) {
+    const { tablerows } = getState().table;
+    ipcRenderer.send("save:row", JSON.stringify(tablerows));
+    ipcRenderer.once("row:saved", () => {
+      toast.warn("Saved Successfully!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    });
+  };
+}

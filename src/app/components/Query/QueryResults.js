@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "./css/Query.css";
 
-const QueryResults = ({ rows }) => {
+import { showContextMenu } from "../../../redux/actions/tableActions";
+
+const QueryResults = ({ rows, showContextMenu }) => {
+  const handleRightClick = (index) => {
+    showContextMenu(index, "row");
+  };
   const tableHeader = (elem) => {
     const keys = Object.keys(elem);
     return (
@@ -20,7 +25,7 @@ const QueryResults = ({ rows }) => {
   const tableRow = (elem, index) => {
     const keys = Object.keys(elem);
     return (
-      <tr>
+      <tr onContextMenu={() => handleRightClick(index)}>
         {keys.map((key) => (
           <td>
             {elem[key] &&
@@ -54,4 +59,7 @@ function mapStateToProps(state) {
     rows: state.table.tablerows,
   };
 }
-export default connect(mapStateToProps)(QueryResults);
+const mapDispatchToProps = {
+  showContextMenu,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(QueryResults);

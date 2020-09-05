@@ -1,9 +1,11 @@
 import * as actionTypes from "../actions/actionTypes";
-
 const INITIAL_STATE = {
   tableinfo: {},
   tablerows: [],
   queryForm: {},
+  clickedRow: -1,
+  toggleMenu: false,
+  menuType: "",
 };
 export default function tableReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -20,6 +22,9 @@ export default function tableReducer(state = INITIAL_STATE, action) {
       return { ...state, queryForm: newForm };
     case actionTypes.RESET_QUERY_FORM:
       return { ...state, queryForm: {} };
+    case actionTypes.SHOW_CONTEXT_MENU:
+      const { clickedRow, menuType } = action;
+      return { ...state, clickedRow, toggleMenu: !state.toggleMenu, menuType };
     default:
       return state;
   }
