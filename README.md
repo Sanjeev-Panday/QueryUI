@@ -18,6 +18,11 @@
 <h4>Multiple connections can be saved.</h4> 
 <img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image5.png"/>
 
+## Change log 
+#### 0.1.1-beta-2
+- Added context menu to table rows
+- Ability to copy and save single or all rows data in JSON file.
+
 ## How To Use
 
 You can either
@@ -42,5 +47,9 @@ npm install
 npm run dev
 
 ```
+### Thanks [craco](https://github.com/gsoft-inc/craco)
+- While working on this project I faced a challenge where I was not able to use electron remote in React Component. 
+- [@craco/craco](https://www.npmjs.com/package/@craco/craco) npm package helped to solve this problem without using 'eject' by adding a single craco.config.js
 
-#### License [MIT](LICENSE.md)
+
+#### License [MIT](LICENSE)
