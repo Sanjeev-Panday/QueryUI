@@ -12,9 +12,7 @@
     "bootstrap": "^4.5.2",
     "cassandra-driver": "^4.6.0",
     "electron-json-storage": "^4.2.0",
-    "immutable": "^4.0.0-rc.12",
     "jquery": "^3.5.1",
-    "node-json-file-storage": "^1.1.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
@@ -34,8 +32,7 @@
     "eject": "react-scripts eject",
     "preelectron-pack": "yarn build",
     "electron-pack": "electron-builder build --mac -c.extraMetadata.main=build/electron.js --publish never",
-    "dev": "cross-env NODE_ENV=devlopment && concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "dev-win": "set ELECTRON_START_URL=http://localhost:3000 && concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev": "cross-env NODE_ENV=development concurrently  \"npm start\" \"wait-on http://localhost:3000 &&  electron .\"",
     "build-electron": "mkdir build/src && cp -r electron/. build/electron && cp -r src/server/. build/src/server",
     "build-electron-win": "mkdir build/src & robocopy electron build/electron /S & robocopy src/server build/src/server /S",
     "package": "electron-builder build --win --mac -c.extraMetadata.main=build/electron/electron.js --publish never",
@@ -53,9 +50,8 @@
   "keywords": [
     "electron",
     "react",
-    "flux",
-    "webpack",
-    "react-hot"
+    "redux",
+    "webpack"
   ],
   "browserslist": {
     "production": [

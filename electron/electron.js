@@ -51,13 +51,10 @@ app.on("ready", () => {
   installDevToolExtensions();
   loadSplashScreen();
   mainWindow = createWindow();
-  if (process.env.NODE_ENV === "development") {
-    mainWindow.openDevTools();
-  }
   if (process.platform === "darwin") {
     applicationTemplate = [
       {
-        label: "DBGlass",
+        label: "QueryUI",
         submenu: [
           {
             label: "About QueryUI",
@@ -200,9 +197,6 @@ app.on("ready", () => {
               );
             },
           },
-          {
-            label: "Contact",
-          },
         ],
       },
     ];
@@ -272,7 +266,7 @@ app.on("ready", () => {
 const storage = require("electron-json-storage");
 const createWindow = () => {
   const startUrl =
-    process.env.NODE_ENV === "devlopment"
+    process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
       : url.format({
           pathname: path.join(__dirname, "../index.html"),
@@ -448,13 +442,12 @@ ipcMain.on("copy:row", (event, row) => {
 });
 const installDevToolExtensions = async () => {
   if (process.env.NODE_ENV === "development") {
-    const installer = require("electron-devtools-installer");
-    const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"];
-    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-    for (const name of extensions) {
-      try {
-        await installer.default(installer[name], forceDownload);
-      } catch (e) {}
-    }
+    const {
+      default: installExtension,
+      REDUX_DEVTOOLS,
+    } = require("electron-devtools-installer");
+    installExtension(REDUX_DEVTOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log("An error occurred: ", err));
   }
 };
