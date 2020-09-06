@@ -44,20 +44,6 @@ class ContextMenu extends React.Component {
     ];
     const rowContextMenuTemplate = [
       {
-        label: "CQL",
-        submenu: [
-          {
-            label: "Update",
-          },
-          {
-            label: "Delete",
-          },
-        ],
-      },
-      {
-        type: "separator",
-      },
-      {
         label: "Copy",
 
         click() {

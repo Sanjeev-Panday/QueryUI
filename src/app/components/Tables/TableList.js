@@ -16,7 +16,7 @@ const TableList = (props) => {
     setInput(event.target.value);
   };
   const handleRightClick = (index) => {
-    props.actions.showContextMenu(index, "table");
+    //props.actions.showContextMenu(index, "table");
   };
   const filterList = (event) => {
     const filteredList =
