@@ -43,4 +43,4 @@ npm run dev
 
 ```
 
-#### License [MIT](LICENSE.md)
+#### License [MIT](LICENSE)
