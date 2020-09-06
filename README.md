@@ -43,7 +43,7 @@ npm run dev
 
 ```
 ### Thanks [craco](https://github.com/gsoft-inc/craco)
-- While working on this project I can faced a challenge where I was not able to use electron remote in React Component. 
+- While working on this project I faced a challenge where I was not able to use electron remote in React Component. 
 - [@craco/craco](https://www.npmjs.com/package/@craco/craco) npm package helped to solve this problem without using 'eject' by adding a single craco.config.js
 
 
