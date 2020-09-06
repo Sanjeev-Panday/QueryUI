@@ -5,7 +5,7 @@ import {
   faWifi,
   faMinusCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import Card from "react-bootstrap/Card";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 const Connection = ({ handleConnection, handleDelete, db }) => {
@@ -25,16 +25,34 @@ const Connection = ({ handleConnection, handleDelete, db }) => {
         >{`DataCenter : ${db.datacenter}`}</Card.Subtitle>
       </Card.Body>
       <Card.Footer>
-        <div className="connect-db" onClick={() => handleConnection(db)}>
-          <FontAwesomeIcon icon={db.isConnected ? faWifi : faPlug} />
-        </div>
-        {!db.isConnected && (
-          <div
-            className="delete-connection"
-            onClick={() => handleDelete(db.connectionName)}
-          >
-            <FontAwesomeIcon icon={faMinusCircle} />
+        <OverlayTrigger
+          trigger="hover"
+          placement="left"
+          delay={{ show: 150, hide: 400 }}
+          overlay={
+            <Tooltip id="connect-button-tooltip">
+              {db.isConnected ? "Disconnect" : "Connect"}
+            </Tooltip>
+          }
+        >
+          <div className="connect-db" onClick={() => handleConnection(db)}>
+            <FontAwesomeIcon icon={db.isConnected ? faWifi : faPlug} />
           </div>
+        </OverlayTrigger>
+        {!db.isConnected && (
+          <OverlayTrigger
+            trigger="hover"
+            placement="left"
+            delay={{ show: 100, hide: 400 }}
+            overlay={<Tooltip id="delete-button-tooltip">Delete</Tooltip>}
+          >
+            <div
+              className="delete-connection"
+              onClick={() => handleDelete(db.connectionName)}
+            >
+              <FontAwesomeIcon icon={faMinusCircle} />
+            </div>
+          </OverlayTrigger>
         )}
       </Card.Footer>
     </Card>

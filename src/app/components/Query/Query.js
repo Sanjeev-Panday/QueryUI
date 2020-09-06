@@ -2,14 +2,21 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import QueryForm from "./QueryForm";
 import { executeQuery } from "../../../redux/actions/tableActions";
-import { Button, Alert } from "react-bootstrap";
+import {
+  Button,
+  Alert,
+  Form,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import PropTypes from "prop-types";
-
 const Query = ({ tableinfo, executeQuery }) => {
   const { keyspaceName, name, partitionKeys, clusteringKeys } = tableinfo;
 
   const [queryForm, setQueryForm] = useState({});
   const [error, setError] = useState({});
+  const [limit, setLimit] = useState(300);
 
   useEffect(() => {
     setQueryForm({});
@@ -48,7 +55,8 @@ const Query = ({ tableinfo, executeQuery }) => {
         }
       });
     queryString =
-      queryString.substr(0, queryString.lastIndexOf("and")).trim() + ";";
+      queryString.substr(0, queryString.lastIndexOf("and")).trim() +
+      `limit ${limit};`;
 
     executeQuery(queryString, where);
   };
@@ -57,6 +65,9 @@ const Query = ({ tableinfo, executeQuery }) => {
       ...queryForm,
       [target.name]: target.value,
     });
+  };
+  const handleSelect = ({ target }) => {
+    setLimit(target.value);
   };
 
   const isPartitionKeysPresent = partitionKeys && partitionKeys.length > 0;
@@ -83,12 +94,44 @@ const Query = ({ tableinfo, executeQuery }) => {
           />
         )}
         <div className="control-section">
-          <Button variant="success " onClick={fetchTableRows}>
-            Select
-          </Button>
-          <Button ariant="success " onClick={fetchAllRows}>
-            Select All
-          </Button>
+          <Form.Row className="align-items-center">
+            <Col sm="auto">
+              <Form.Label>No of rows</Form.Label>
+            </Col>
+            <Col sm="auto">
+              <Form.Control
+                as="select"
+                custom
+                name="limit"
+                value={limit}
+                onChange={handleSelect}
+              >
+                <option>10</option>
+                <option>100</option>
+                <option>200</option>
+                <option>300</option>
+              </Form.Control>
+            </Col>
+            <Col sm="auto">
+              <Button variant="success" onClick={fetchTableRows}>
+                Select
+              </Button>
+            </Col>
+          </Form.Row>
+          <OverlayTrigger
+            trigger="hover"
+            placement="left"
+            delay={{ show: 100, hide: 400 }}
+            overlay={
+              <Tooltip id="select-all-button-tooltip">
+                Without where condition. Limit 300
+              </Tooltip>
+            }
+          >
+            <Button variant="primary " onClick={fetchAllRows}>
+              Select All
+            </Button>
+          </OverlayTrigger>
         </div>
       </form>
     </>

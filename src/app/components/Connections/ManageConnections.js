@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import "./css/Connection.css";
 class ManageConnections extends React.Component {
   state = {
@@ -104,14 +105,23 @@ class ManageConnections extends React.Component {
               handleDelete={this.handleDelete}
             />
           ))}
-        <i
-          onClick={this.handleAddConneciton}
-          className="add-connection"
-          data-toggle="modal"
-          data-target="#exampleModalCenter"
+        <OverlayTrigger
+          trigger="hover"
+          placement="top"
+          delay={{ show: 100, hide: 200 }}
+          overlay={
+            <Tooltip id="add-button-tooltip">Add New Connection</Tooltip>
+          }
         >
-          <FontAwesomeIcon icon={faPlusCircle} />
-        </i>
+          <i
+            onClick={this.handleAddConneciton}
+            className="add-connection"
+            data-toggle="modal"
+            data-target="#exampleModalCenter"
+          >
+            <FontAwesomeIcon icon={faPlusCircle} />
+          </i>
+        </OverlayTrigger>
         <ConnectionForm
           onHide={() =>
             this.setState({ ...this.state, show: false, error: {} })

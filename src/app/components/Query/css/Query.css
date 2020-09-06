@@ -6,3 +6,12 @@
   display: flex;
   justify-content: space-between;
 }
+
+.search-icon {
+  display: block;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.search-icon:hover {
+  color: rgb(172, 98, 8);
+}
