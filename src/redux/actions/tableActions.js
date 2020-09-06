@@ -94,6 +94,20 @@ export function copySelectedRow() {
     });
   };
 }
+
+export function copyAllRows() {
+  return function (dispatch, getState) {
+    const { tablerows } = getState().table;
+    ipcRenderer.send("copy:rows", JSON.stringify(tablerows));
+    ipcRenderer.once("rows:copied", () => {
+      toast.success("Copied!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    });
+  };
+}
+
 export function saveSelectedRow() {
   return function (dispatch, getState) {
     const { tablerows, clickedRow } = getState().table;

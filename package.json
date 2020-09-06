@@ -1,6 +1,6 @@
 {
   "name": "QueryUI",
-  "version": "0.1.1-beta",
+  "version": "0.1.1-beta-2",
   "productName": "QueryUI",
   "description": "Cross platform UI client for cassandra DB ",
   "private": true,

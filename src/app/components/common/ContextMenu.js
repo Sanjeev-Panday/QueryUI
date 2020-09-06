@@ -5,6 +5,7 @@ import {
   saveSelectedRow,
   saveAllRows,
   copySelectedRow,
+  copyAllRows,
 } from "../../../redux/actions/tableActions";
 const { Menu } = remote;
 
@@ -28,6 +29,9 @@ class ContextMenu extends React.Component {
 
     const copySelectedRow = () => {
       this.props.copySelectedRow();
+    };
+    const copyAllRowsItem = () => {
+      this.props.copyAllRows();
     };
     const displayFormToCreateNewRow = () => {};
     const tableContextMenuTemplate = [
@@ -63,6 +67,9 @@ class ContextMenu extends React.Component {
 
       {
         label: "Copy All",
+        click() {
+          copyAllRowsItem();
+        },
       },
       {
         type: "separator",
@@ -107,5 +114,6 @@ const mapDispatchToProps = {
   saveAllRows,
   saveSelectedRow,
   copySelectedRow,
+  copyAllRows,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ContextMenu);

@@ -440,6 +440,12 @@ ipcMain.on("copy:row", (event, row) => {
   clipboard.writeText(row);
   event.sender.send("row:copied");
 });
+
+ipcMain.on("copy:rows", (event, rows) => {
+  clipboard.writeText(rows);
+  event.sender.send("rows:copied");
+});
+
 const installDevToolExtensions = async () => {
   if (process.env.NODE_ENV === "development") {
     const {

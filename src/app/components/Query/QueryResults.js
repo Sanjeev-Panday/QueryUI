@@ -25,9 +25,9 @@ const QueryResults = ({ rows, showContextMenu }) => {
   const tableRow = (elem, index) => {
     const keys = Object.keys(elem);
     return (
-      <tr onContextMenu={() => handleRightClick(index)}>
+      <tr key={index} onContextMenu={() => handleRightClick(index)}>
         {keys.map((key) => (
-          <td>
+          <td key={key + index}>
             {elem[key] &&
               (elem[key] instanceof Object
                 ? JSON.stringify(elem[key])
@@ -39,7 +39,7 @@ const QueryResults = ({ rows, showContextMenu }) => {
   };
   const rowsPresent = rows && rows.length > 0;
   return rowsPresent ? (
-    <div class="query-result">
+    <div className="query-result">
       <table id="mt" className="table table-bordered table-hover">
         <thead className="thead-dark">{rows && tableHeader(rows[0])}</thead>
         <tbody>
