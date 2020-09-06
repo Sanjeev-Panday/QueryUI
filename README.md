@@ -18,6 +18,11 @@
 <h4>Multiple connections can be saved.</h4> 
 <img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image5.png"/>
 
+## Change log 
+#### 0.1.1-beta-2
+- Added context menu to table rows
+- Ability to copy and save single or all rows data in JSON file.
+
 ## How To Use
 
 You can either
