@@ -5,23 +5,27 @@
 
 ## Features
 
-<h4>Simple UI to explore cassandra table to know columns, partition keys and clustering columns with data type information</h4>
-<img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image1.png"/>
-<h4>Validations to inform user on required fields before executing the query</h4>
-<img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image2.png"/>
-<h4>Data Type Error handling</h4> 
-<img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image3.png"/>
-<br/>
-<h4>Where clause validation Error handling</h4> 
-<img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image4.png"/>
-<br/>
-<h4>Multiple connections can be saved.</h4> 
-<img src="https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image5.png"/>
+- Simple UI to explore cassandra table to know columns, partition keys and clustering columns with data type information
+- Validations to inform user on required fields before executing the query
+- Data Type Error handling
+- Where clause validation Error handling
+- Multiple connections can be saved. 
+- Added context menu to table rows
+- Ability to copy and save single or all rows data in JSON file.
+- Tooltip
+- Option to select limit (no of rows)  while executing query.
 
 ## Change log 
 #### 0.1.1-beta-2
 - Added context menu to table rows
 - Ability to copy and save single or all rows data in JSON file.
+- Tooltip
+- Option to select limit (no of rows)  while executing query.
+
+## Few Screenshots
+
+![](https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image6.png)
+![](https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image7.png)
 
 ## How To Use
 
