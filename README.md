@@ -1,6 +1,6 @@
 # Cassandra Query UI
 
-- A cross platfrom desktop applicaiton written in <strong>React</strong> to connect to <b>Cassandra DB</b> and run CQL queries using simple forms.
+- A cross platfrom desktop application written in <strong>React</strong> to connect to <b>Cassandra DB</b> and run CQL queries using simple forms.
 - Built with [Electron](https://github.com/atom/electron), [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Bootstrap](https://react-bootstrap.github.io/), [bootstrap](https://getbootstrap.com/), [Redux thunk](https://github.com/reduxjs/redux-thunk)
 
 ## Features
