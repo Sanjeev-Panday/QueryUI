@@ -28,15 +28,6 @@
 ![](https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image7.png)
 
 ## How To Use
-
-You can either
-
-#### [Download Released App](https://github.com/Sanjeev-Panday/cassandra-explorer/releases)
-
-Extract it somewhere, and then run the executable.
-
-or
-
 #### Package app manually from sources
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) installed on your computer. From your command line:
