@@ -34,9 +34,9 @@ To clone and run this repository you'll need [Git](https://git-scm.com) and [Nod
 
 ```bash
 # Clone this repository
-git clone https://github.com/Sanjeev-Panday/cassandra-explorer.git
+git clone https://github.com/Sanjeev-Panday/QueryUI.git
 # Go into the repository
-cd cassandra-explorer
+cd QueryUI
 # Install dependencies and run the app
 npm install
 npm run dev
