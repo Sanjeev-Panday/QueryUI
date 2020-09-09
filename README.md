@@ -35,6 +35,9 @@
 
 OR
 
+[Download win-unpacked.zip, extract is somewhere and run QueryUI.exe](https://github.com/Sanjeev-Panday/QueryUI/releases) 
+
+OR
 #### Package app manually from sources
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) installed on your computer. From your command line:
