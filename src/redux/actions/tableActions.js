@@ -35,11 +35,7 @@ export function executeQuery(query, where) {
     });
     ipcRenderer.send("execute:query", query, where);
     ipcRenderer.once("query:executed", (event, rows) => {
-      (!rows || rows.length === 0) &&
-        toast.warn("No rows fetched!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
+      (!rows || rows.length === 0) && toast.warn("No rows fetched!");
 
       dispatch({
         type: actionTypes.FETCH_TABLE_ROWS,
@@ -60,6 +56,37 @@ export function executeQuery(query, where) {
     });
   };
 }
+
+export function updateRow(query, options, updateForm) {
+  return function (dispatch) {
+    dispatch({
+      type: actionTypes.SHOW_SPINNER,
+    });
+    ipcRenderer.send("update:row", query, options);
+    ipcRenderer.once("row:updated", () => {
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
+      });
+      toast.success("Updated Successfully!!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+      dispatch({
+        type: actionTypes.ROW_UPDATE_SUCCESSFUL,
+        updateForm,
+      });
+    });
+    ipcRenderer.once("row:update:failed", (event, error) => {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        error,
+      });
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
+      });
+    });
+  };
+}
+
 export function clearTableRows(rows) {
   return {
     type: actionTypes.CLEAR_TABLE_ROWS,
@@ -88,8 +115,7 @@ export function copySelectedRow() {
     ipcRenderer.send("copy:row", JSON.stringify(tablerows[clickedRow]));
     ipcRenderer.once("row:copied", () => {
       toast.success("Copied!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     });
   };
@@ -101,8 +127,7 @@ export function copyAllRows() {
     ipcRenderer.send("copy:rows", JSON.stringify(tablerows));
     ipcRenderer.once("rows:copied", () => {
       toast.success("Copied!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     });
   };
@@ -113,10 +138,7 @@ export function saveSelectedRow() {
     const { tablerows, clickedRow } = getState().table;
     ipcRenderer.send("save:row", JSON.stringify(tablerows[clickedRow]));
     ipcRenderer.once("row:saved", () => {
-      toast.success("Saved Successfully!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-      });
+      toast.success("Saved Successfully!");
     });
   };
 }
@@ -125,10 +147,82 @@ export function saveAllRows() {
     const { tablerows } = getState().table;
     ipcRenderer.send("save:row", JSON.stringify(tablerows));
     ipcRenderer.once("row:saved", () => {
-      toast.warn("Saved Successfully!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
+      toast.warn("Saved Successfully!");
+    });
+  };
+}
+export function showUpdateForm() {
+  return function (dispatch, getState) {
+    const { tablerows, clickedRow } = getState().table;
+    dispatch({
+      type: actionTypes.SHOW_UPDATE_FORM,
+      formType: "update",
+      row: tablerows[clickedRow],
+    });
+  };
+}
+export function showDeleteConfirmation() {
+  return {
+    type: actionTypes.SHOW_DELETE_CONFIRMATION,
+    operation: "delete",
+  };
+}
+export function deleteSelectedRow() {
+  return function (dispatch, getState) {
+    dispatch({
+      type: actionTypes.SHOW_SPINNER,
+    });
+    const { tablerows, clickedRow, tableinfo } = getState().table;
+    const { keyspaceName, name, partitionKeys, clusteringKeys } = tableinfo;
+    const selectedRow = tablerows[clickedRow];
+    const primaryKey = partitionKeys.concat(clusteringKeys);
+    const where = [];
+    let queryString = `delete from ${keyspaceName}.${name} where `;
+    primaryKey.forEach((elem) => {
+      queryString += elem.name + " = ? and ";
+
+      where.push(
+        selectedRow[elem.name] instanceof Object
+          ? JSON.stringify(selectedRow[elem.name])
+              .toString()
+              .replace(/^"(.*)"$/, "$1")
+          : selectedRow[elem.name]
+      );
+    });
+    queryString =
+      queryString.substr(0, queryString.lastIndexOf("and")).trim() + `;`;
+    ipcRenderer.send("delete:row", queryString, where);
+    ipcRenderer.once("row:deleted", () => {
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
+      });
+      dispatch({
+        type: actionTypes.ROW_DELETE_SUCCESSFUL,
+      });
+      toast.warn("Deleted Successfully!", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+
+      dispatch({
+        type: actionTypes.HIDE_DELETE_CONFIRMATION,
       });
     });
+    ipcRenderer.once("row:delete:failed", (event, error) => {
+      dispatch({
+        type: actionTypes.HIDE_SPINNER,
+      });
+      dispatch({
+        type: actionTypes.HIDE_DELETE_CONFIRMATION,
+      });
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        error,
+      });
+    });
+  };
+}
+export function hideConfirmationMessage() {
+  return {
+    type: actionTypes.HIDE_DELETE_CONFIRMATION,
   };
 }

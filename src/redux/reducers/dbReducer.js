@@ -12,7 +12,14 @@ export default function dbReducer(state = INITIAL_STATE, action) {
       connections = [...state.connections];
       connections.push(action.connection);
       return { ...state, connections };
+    case actionTypes.UPDATE_CONNECTION_SUCCESS:
+      connections = state.connections.map((elem) =>
+        elem.connectionName === action.connection.connectionName
+          ? action.connection
+          : elem
+      );
 
+      return { ...state, connections };
     case actionTypes.DELETE_CONNECTION_SUCCESS:
       connections = [...state.connections].filter(
         (con) => con.connectionName !== action.name

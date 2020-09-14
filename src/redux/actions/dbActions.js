@@ -93,6 +93,15 @@ export function addConnection(connection) {
   };
 }
 
+export function updateConnection(connection) {
+  return function (dispatch) {
+    ipcRenderer.send("add:connection", connection);
+    ipcRenderer.once("connection:added", (event, _) => {
+      dispatch({ type: actionTypes.UPDATE_CONNECTION_SUCCESS, connection });
+    });
+  };
+}
+
 export function deleteConnection(name) {
   return function (dispatch) {
     ipcRenderer.send("delete:connection", name);

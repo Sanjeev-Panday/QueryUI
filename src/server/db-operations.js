@@ -84,6 +84,37 @@ const executeQuery = async (params, query, where) => {
     );
   });
 };
+
+const update = async (params, query, options) => {
+  const client = await connection(
+    params.host,
+    params.port,
+    params.datacenter,
+    params
+  );
+  return new Promise((resolve, reject) => {
+    client
+      .execute(query, options, { prepare: true })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err));
+  });
+};
+
+const deleteRow = async (params, query, where) => {
+  const client = await connection(
+    params.host,
+    params.port,
+    params.datacenter,
+    params
+  );
+  return new Promise((resolve, reject) => {
+    client
+      .execute(query, where, { prepare: true })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err));
+  });
+};
+
 const shutdown = async (params) => {
   const client = await connection(
     params.host,
@@ -100,4 +131,6 @@ module.exports = {
   shutdown,
   executeQuery,
   Uuid,
+  update,
+  deleteRow,
 };

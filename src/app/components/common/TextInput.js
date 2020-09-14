@@ -10,6 +10,7 @@ const TextInput = ({
   onChange,
   error,
   label,
+  disabled,
 }) => {
   const style = size ? "form-group " + size : "form-group col-md-6";
   return (
@@ -24,6 +25,7 @@ const TextInput = ({
         type="text"
         className="form-control"
         id={id}
+        disabled={disabled}
         value={value}
         name={name}
         onChange={onChange}
@@ -37,6 +39,7 @@ TextInput.propTypes = {
   id: PropTypes.string.isRequired,
   size: PropTypes.string,
   isRequired: PropTypes.bool,
+  disabled: PropTypes.bool,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 {
   "name": "query-ui",
-  "version": "0.1.1-beta-2",
+  "version": "1.0.0-beta",
   "productName": "QueryUI",
   "description": "Cross platform UI client for cassandra DB ",
   "private": true,
@@ -35,7 +35,7 @@
     "dev": "cross-env NODE_ENV=development concurrently  \"npm start\" \"wait-on http://localhost:3000 &&  electron .\"",
     "build-electron": "mkdir build/src && cp -r electron/. build/electron && cp -r src/server/. build/src/server",
     "build-electron-win": "mkdir build/src & robocopy electron build/electron /S & robocopy src/server build/src/server /S",
-    "package": "electron-builder build --win  -c.extraMetadata.main=build/electron/electron.js --publish never",
+    "package": "electron-builder build --mac  -c.extraMetadata.main=build/electron/electron.js --publish never",
     "deploy": "electron-builder build --win  -c.extraMetadata.main=build/electron/electron.js --publish always"
   },
   "eslintConfig": {

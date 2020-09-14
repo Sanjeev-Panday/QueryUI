@@ -119,7 +119,7 @@ const Query = ({ tableinfo, executeQuery }) => {
             </Col>
           </Form.Row>
           <OverlayTrigger
-            trigger="hover"
+            trigger={["hover", "focus"]}
             placement="left"
             delay={{ show: 100, hide: 400 }}
             overlay={

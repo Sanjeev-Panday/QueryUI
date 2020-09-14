@@ -15,6 +15,8 @@ const {
   getTableInfo,
   executeQuery,
   getTables,
+  update,
+  deleteRow,
 } = require("../src/server/db-operations");
 const fs = require("fs");
 let mainWindow = null;
@@ -404,6 +406,30 @@ ipcMain.on("execute:query", async (event, query, where) => {
         : null;
       if (!msg) msg = getErrorMessage(err);
       mainWindow.webContents.send("query:execution:failed", msg);
+    });
+});
+
+ipcMain.on("update:row", async (event, query, options) => {
+  await update(connection, query, options)
+    .then((result) => {
+      event.sender.send("row:updated", result);
+    })
+    .catch((err) => {
+      let msg = err.message ? { name: "Error", message: err.message } : null;
+      if (!msg) msg = getErrorMessage(err);
+      event.sender.send("row:update:failed", msg);
+    });
+});
+
+ipcMain.on("delete:row", async (event, query, where) => {
+  await deleteRow(connection, query, where)
+    .then((result) => {
+      event.sender.send("row:deleted", result);
+    })
+    .catch((err) => {
+      let msg = err.message ? { name: "Error", message: err.message } : null;
+      if (!msg) msg = getErrorMessage(err);
+      event.sender.send("row:delete:failed", msg);
     });
 });
 

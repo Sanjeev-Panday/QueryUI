@@ -7,6 +7,7 @@ import {
   disconnectFromDB,
   loadConnections,
   addConnection,
+  updateConnection,
   deleteConnection,
 } from "../../../redux/actions/dbActions";
 import { resetTableData } from "../../../redux/actions/tableActions";
@@ -27,6 +28,7 @@ class ManageConnections extends React.Component {
       keyspaces: [],
       isConnected: false,
     },
+    editing: false,
     error: {},
   };
 
@@ -61,7 +63,15 @@ class ManageConnections extends React.Component {
   // Create Model to capture connection details
   handleAddConneciton = (event) => {
     event.preventDefault();
-    this.setState({ ...this.state, show: true });
+    this.setState({
+      ...this.state,
+      connection: {},
+      editing: false,
+      show: true,
+    });
+  };
+  handleEdit = (db) => {
+    this.setState({ ...this.state, connection: db, editing: true, show: true });
   };
   validateForm = (error, data) => {
     if (!data.connectionName)
@@ -87,9 +97,13 @@ class ManageConnections extends React.Component {
     const isValid = Object.keys(error).length === 0;
     this.setState({ ...this.state, show: !isValid, error });
     if (Object.keys(error).length > 0) return;
-    this.props.addConnection({
-      ...this.state.connection,
-    });
+    this.state.editing
+      ? this.props.updateConnection({
+          ...this.state.connection,
+        })
+      : this.props.addConnection({
+          ...this.state.connection,
+        });
   };
 
   render() {
@@ -103,10 +117,11 @@ class ManageConnections extends React.Component {
               key={elem.connectionName}
               db={elem}
               handleDelete={this.handleDelete}
+              handleEdit={this.handleEdit}
             />
           ))}
         <OverlayTrigger
-          trigger="hover"
+          trigger={["hover", "focus"]}
           placement="top"
           delay={{ show: 100, hide: 200 }}
           overlay={
@@ -131,6 +146,7 @@ class ManageConnections extends React.Component {
           onChange={this.handleChange}
           onSaveConnection={this.handleSaveConnection}
           error={this.state.error}
+          editing={this.state.editing}
         />
       </div>
     );
@@ -158,6 +174,7 @@ const mapDispatchToProps = {
   resetTableData,
   addConnection,
   deleteConnection,
+  updateConnection,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageConnections);

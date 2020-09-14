@@ -10,6 +10,7 @@ const ConnectionForm = ({
   onChange,
   error,
   onSaveConnection,
+  editing,
   ...props
 }) => {
   return (
@@ -20,7 +21,9 @@ const ConnectionForm = ({
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="exampleModalLongTitle">New Connection</Modal.Title>
+        <Modal.Title id="exampleModalLongTitle">
+          {editing ? "Update " : "Add "} Connection
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form>
@@ -29,6 +32,7 @@ const ConnectionForm = ({
             label="Connection Name"
             id="connectionName"
             name="connectionName"
+            disabled={editing}
             value={db.connectionName}
             onChange={onChange}
             size="col-md-12"
