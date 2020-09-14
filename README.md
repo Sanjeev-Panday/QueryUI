@@ -1,6 +1,6 @@
 # Cassandra Query UI
 
-- A cross platfrom desktop applicaiton written in <strong>React</strong> to connect to <b>Cassandra DB</b> and run CQL queries using simple forms.
+- A cross platfrom desktop application written in <strong>React</strong> to connect to <b>Cassandra DB</b> and run CQL queries using simple forms.
 - Built with [Electron](https://github.com/atom/electron), [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Bootstrap](https://react-bootstrap.github.io/), [bootstrap](https://getbootstrap.com/), [Redux thunk](https://github.com/reduxjs/redux-thunk)
 
 ## Features
@@ -28,6 +28,16 @@
 ![](https://github.com/Sanjeev-Panday/cassandra-explorer/blob/master/screenshots/image7.png)
 
 ## How To Use
+
+#### You can either
+
+[Download and install released app](https://github.com/Sanjeev-Panday/QueryUI/releases) 
+
+OR
+
+[Download win-unpacked.zip, extract is somewhere and run QueryUI.exe](https://github.com/Sanjeev-Panday/QueryUI/releases) 
+
+OR
 #### Package app manually from sources
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) installed on your computer. From your command line:
