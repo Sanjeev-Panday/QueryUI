@@ -84,7 +84,7 @@ const Update = ({ tableinfo, updateTableForm, updateRow, executeQuery }) => {
       <UpdateForm
         columns={remainingColums}
         handleChange={handleChange}
-        heading="Other Colums"
+        heading="Other Columns"
         isRequired={false}
         updateForm={updateForm}
       />

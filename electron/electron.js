@@ -31,8 +31,8 @@ const loadSplashScreen = () => {
     slashes: true,
   });
   splashScreen = new BrowserWindow({
-    width: 300,
-    height: 350,
+    width: 500,
+    height: 500,
     show: false,
     parent: mainWindow,
     frame: false,
