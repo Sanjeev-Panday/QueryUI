@@ -9,18 +9,26 @@
 - Validations to inform user on required fields before executing the query
 - Data Type Error handling
 - Where clause validation Error handling
-- Multiple connections can be saved. 
+- Multiple connections can be saved.
 - Added context menu to table rows
 - Ability to copy and save single or all rows data in JSON file.
 - Tooltip
-- Option to select limit (no of rows)  while executing query.
+- Option to select limit (no of rows) while executing query.
 
-## Change log 
+## Change log
+
 #### 0.1.1-beta-2
+
 - Added context menu to table rows
 - Ability to copy and save single or all rows data in JSON file.
 - Tooltip
-- Option to select limit (no of rows)  while executing query.
+- Option to select limit (no of rows) while executing query.
+
+#### 1.0.0-beta
+
+- Added update and delete functionality
+- You can now edit connecitons.
+- Confirmation box added to confirm connection delete.
 
 ## Few Screenshots
 
@@ -31,13 +39,14 @@
 
 #### You can either
 
-[Download and install released app](https://github.com/Sanjeev-Panday/QueryUI/releases) 
+[Download and install released app](https://github.com/Sanjeev-Panday/QueryUI/releases)
 
 OR
 
-[Download win-unpacked.zip, extract is somewhere and run QueryUI.exe](https://github.com/Sanjeev-Panday/QueryUI/releases) 
+[Download win-unpacked.zip, extract is somewhere and run QueryUI.exe](https://github.com/Sanjeev-Panday/QueryUI/releases)
 
 OR
+
 #### Package app manually from sources
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) installed on your computer. From your command line:
@@ -52,9 +61,10 @@ npm install
 npm run dev
 
 ```
-### Thanks [craco](https://github.com/gsoft-inc/craco)
-- While working on this project I faced a challenge where I was not able to use electron remote in React Component. 
-- [@craco/craco](https://www.npmjs.com/package/@craco/craco) npm package helped to solve this problem without using 'eject' by adding a single craco.config.js
 
+### Thanks [craco](https://github.com/gsoft-inc/craco)
+
+- While working on this project I faced a challenge where I was not able to use electron remote in React Component.
+- [@craco/craco](https://www.npmjs.com/package/@craco/craco) npm package helped to solve this problem without using 'eject' by adding a single craco.config.js
 
 #### License [MIT](LICENSE)
