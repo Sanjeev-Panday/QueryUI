@@ -56,7 +56,7 @@ const Query = ({ tableinfo, executeQuery }) => {
       });
     queryString =
       queryString.substr(0, queryString.lastIndexOf("and")).trim() +
-      `limit ${limit};`;
+      ` limit ${limit};`;
 
     executeQuery(queryString, where);
   };
