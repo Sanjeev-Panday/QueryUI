@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { remote } from "electron";
+import { Menu } from "@electron/remote";
 import {
   saveSelectedRow,
   saveAllRows,
@@ -9,8 +9,6 @@ import {
   showUpdateForm,
   showDeleteConfirmation,
 } from "../../../redux/actions/tableActions";
-const { Menu } = remote;
-
 class ContextMenu extends React.Component {
   constructor(props) {
     super(props);

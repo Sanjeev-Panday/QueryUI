@@ -7,6 +7,7 @@ const {
   Menu,
   shell,
 } = require("electron");
+const { initialize: initializeRemote, enable: enableRemote } = require("@electron/remote/main");
 const path = require("path");
 const url = require("url");
 const {
@@ -24,6 +25,8 @@ let connection = null;
 let splashScreen = null;
 let menu;
 let applicationTemplate;
+
+initializeRemote();
 const loadSplashScreen = () => {
   const urlOfLoading = url.format({
     pathname: path.join(__dirname, "../loading.html"),
@@ -49,7 +52,7 @@ const loadSplashScreen = () => {
   });
 };
 
-app.on("ready", () => {
+app.whenReady().then(() => {
   installDevToolExtensions();
   loadSplashScreen();
   mainWindow = createWindow();
@@ -284,10 +287,11 @@ const createWindow = () => {
     center: true,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
+      contextIsolation: false,
     },
   });
   newWindow.webContents.loadURL(startUrl);
+  enableRemote(newWindow.webContents);
 
   newWindow.on("ready-to-show", () => {
     newWindow.show();
