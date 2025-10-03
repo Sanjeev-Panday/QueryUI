@@ -1,3 +1,5 @@
 $component-active-bg: #776d8a;
 // Bootstrap and its default variables
-@import "node_modules/bootstrap/scss/bootstrap";
+@use "bootstrap/scss/bootstrap" with (
+  $component-active-bg: $component-active-bg
+);
